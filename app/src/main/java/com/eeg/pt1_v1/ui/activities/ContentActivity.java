@@ -1,5 +1,6 @@
 package com.eeg.pt1_v1.ui.activities;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.adapters.Pager;
@@ -22,11 +24,22 @@ public class ContentActivity extends AppCompatActivity implements TabLayout.OnTa
     /* For the View */
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    ImageView mBluetoothIcon;
     private Pager mAdapter;
     private int[] mTabIcons = {
             R.drawable.ic_home,
             R.drawable.ic_record,
             R.drawable.ic_profile,
+    };
+
+    private int[] mBtteryPorcentage = {
+            R.drawable.ic_battery_20,
+            R.drawable.ic_battery_30,
+            R.drawable.ic_battery_50,
+            R.drawable.ic_battery_60,
+            R.drawable.ic_battery_80,
+            R.drawable.ic_battery_90,
+            R.drawable.ic_battery_100
     };
 
     /* For the Fragments tag */
@@ -49,7 +62,7 @@ public class ContentActivity extends AppCompatActivity implements TabLayout.OnTa
         getCurrentUser();
 
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-
+        mBluetoothIcon = (ImageView) findViewById(R.id.small_bluetooth_icon);
         if(isMedic) {// if is medic or specialist
             mTabLayout.addTab(mTabLayout.newTab().setTag(HOME_TAG));
             mTabLayout.addTab(mTabLayout.newTab().setTag(SCHEDULE_TAG));
@@ -98,7 +111,11 @@ public class ContentActivity extends AppCompatActivity implements TabLayout.OnTa
 
     public void goBluetoothConection(View view) {
         Intent i = new Intent(ContentActivity.this, BluetoothConnectionActivity.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.zoom_enter_animation, R.anim.zoom_exit_animation);
+
+        View sharedView = view.findViewById(R.id.small_bluetooth_icon);
+        String transitionName = getString(R.string.error_bluetooth_icon);
+
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this, sharedView, transitionName);
+        startActivity(i, transitionActivityOptions.toBundle());
     }
 }
