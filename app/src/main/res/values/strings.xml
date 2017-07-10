@@ -4,7 +4,12 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-
+    <string name="add_user_notification_icon">add_user_notification</string>
+    <string name="record_notification_icon">record_notification_icon</string>
+    <string name="calendar_notification_icon">calendar_notification_icon</string>
+    <string name="allert_notification_icon">allert_notification_icon</string>
+    <string name="error_bluetooth_icon">error_bluetooth_icon</string>
+    <string name="error_wifi_icon">error_wifi_name</string>
 
 
 
