@@ -2,6 +2,7 @@ package com.eeg.pt1_v1.ui.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -26,6 +27,7 @@ public class ContentActivity extends AppCompatActivity implements TabLayout.OnTa
     private TabLayout mTabLayout;
     ImageView mBluetoothIcon;
     private Pager mAdapter;
+
     private int[] mTabIcons = {
             R.drawable.ic_home,
             R.drawable.ic_record,
@@ -81,6 +83,7 @@ public class ContentActivity extends AppCompatActivity implements TabLayout.OnTa
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         setIcons();
         mTabLayout.setOnTabSelectedListener(this);
     }
@@ -88,6 +91,7 @@ public class ContentActivity extends AppCompatActivity implements TabLayout.OnTa
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         mViewPager.setCurrentItem(tab.getPosition());
+        mTabLayout.setSelectedTabIndicatorColor(Color.WHITE);
     }
 
     @Override

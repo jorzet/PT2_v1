@@ -1,15 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Profile"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/header_cover_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"/>
+
+                <com.eeg.pt1_v1.adapters.RoundedImageView
+                    android:id="@+id/user_profile_photo"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_below="@+id/header_cover_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-60dp"
+                    android:background="@drawable/profile_circular_border_imageview"
+                    android:elevation="5dp"
+                    android:padding="20dp"
+                    android:scaleType="centerCrop"/>
+                <!--<ImageButton
+                    android:id="@+id/user_profile_photo"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_below="@+id/header_cover_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-60dp"
+                    android:background="@drawable/profile_circular_border_imageview"
+                    android:elevation="5dp"
+                    android:padding="20dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_profile" />-->
+
+                <RelativeLayout
+                    android:id="@+id/profile_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/header_cover_image"
+                    android:background="#FEFEFE"
+                    android:elevation="4dp"
+                    android:paddingBottom="24dp">
+
+
+                    <TextView
+                        android:id="@+id/user_profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="76dp"
+                        android:text="Jorge Zepeda Tinoco"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/user_profile_user_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_profile_name"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="12dp"
+                        android:text="23 años                       epilepsia"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/drop_down_option_menu"
+                        android:onClick="goSettingProfile"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/ic_settings"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile_layout"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/user_profile_school"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:padding="20dp"
+                        android:text="Especialista: Laura Garay Gimenez" />
+
+                    <TextView
+                        android:id="@+id/user_profile_email"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:padding="20dp"
+                        android:text="Enfermedad: Epilepsia" />
+
+                    <TextView
+                        android:id="@+id/user_profile_group"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:padding="20dp"
+                        android:text="Estatura: 1.75 cm" />
+
+                    <TextView
+                        android:id="@+id/user_profile_teacher"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:padding="20dp"
+                        android:text="Peso: 70 Kg" />
+
+                    <TextView
+                        android:id="@+id/user_profile_status"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:padding="20dp"
+                        android:text="Ultimo estudio" />
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

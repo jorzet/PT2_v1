@@ -1,31 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/small_bluetooth_icon"
-        android:layout_width="234dp"
-        android:layout_height="205dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_error_bluetooth_conection"
-        android:transitionName="@string/error_bluetooth_icon"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp" />
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/tool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <TextView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:weightSum="1">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.88">
+            <ImageView
+                android:id="@+id/small_bluetooth_icon"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_bluetooth_conection"
+                android:transitionName="@string/error_bluetooth_icon"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Conexión Bluetooth"
+                android:textAlignment="center"
+                android:id="@+id/textView3"
+                android:layout_below="@+id/small_bluetooth_icon"
+                android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_below="@+id/tool"
         android:layout_width="fill_parent"
-        android:layout_height="70dp"
-        android:background="#fff"
-        android:elevation="4dp"
-        android:padding="20dp"
-        android:textSize="20dp"
-        android:text="       Error de conexión wifi"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/small_bluetooth_icon"
-        android:layout_alignParentEnd="true" />
+        android:layout_height="fill_parent"
+        >
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            />
+        <TextView
+            android:id="@+id/bluetoothstate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/bluetoothstate2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Set Discoverable Duration"
+            />
+        <Button
+            android:id="@+id/scandevice"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Scan Bluetooth Devices"
+            android:enabled="false"
+            />
+        <ListView
+            android:id="@+id/devicesfound"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
+    </LinearLayout>
 
 </RelativeLayout>
