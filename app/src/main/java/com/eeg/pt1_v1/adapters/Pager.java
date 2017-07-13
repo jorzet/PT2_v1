@@ -33,11 +33,11 @@ public class Pager extends FragmentStatePagerAdapter{
         if(isMEdic) {
             switch (position) {
                 case 0:
-                    return new HomeFragment();
+                    return new ProfileFragment();
                 case 1:
                     return new ScheduleFragment();
                 case 2:
-                    return new ProfileFragment();
+                    return new ScheduleFragment();
                 default:
                     return null;
             }
@@ -45,11 +45,11 @@ public class Pager extends FragmentStatePagerAdapter{
         else{
             switch (position) {
                 case 0:
-                    return new HomeFragment();
+                    return new ProfileFragment();
                 case 1:
                     return new RecordingFragment();
                 case 2:
-                    return new ProfileFragment();
+                    return new ScheduleFragment();
                 default:
                     return null;
             }

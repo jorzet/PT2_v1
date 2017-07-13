@@ -45,20 +45,7 @@
     <!--Forgot-->
     <string name="restart_password">Reestablecer contraseña</string>
     <string name="text_forgot">Ingresa tu direccion de correo electronico y nosotros te enviaremos un enlace para reestablecer tu contraseña</string>
-    <!--Home-->
-    <string name="home">Home</string>
 
-    <string name="perfil">Perfil</string>
-    <string name="Bandeja">Bandeja de entrada</string>
-    <string name="group">Grupo</string>
-    <string name="logout">Cerrar sesión</string>
-
-    <string name="action_search">Buscar</string>
-    <string name="action_settings">Configuracion</string>
-
-    <string name="De">De</string>
-    <string name="Para">Para</string>
-    <string name="Asunto">Asunto</string>
-    <string name="Razones">Escriba sus razones:</string>
-    <string name="txtNameGroup">Nombre del Grupo</string>
+    <string name="scanning_devices">Escaneando dispositivos</string>
+    <string name="skip_conection">SKIP</string>
 </resources>

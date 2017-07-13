@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.ui.activities.BluetoothConnectionActivity;
 import com.eeg.pt1_v1.ui.activities.ContentActivity;
 import com.eeg.pt1_v1.ui.activities.LoginActivity;
 
@@ -96,7 +97,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
     }
 
     private void goHomeActivity() {
-        Intent intent = new Intent(getActivity(), ContentActivity.class);
+        Intent intent = new Intent(getActivity(), BluetoothConnectionActivity.class);
         startActivity(intent);
         getActivity().finish();
     }

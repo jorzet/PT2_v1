@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+
     <application
 
         android:allowBackup="true"
@@ -21,6 +22,7 @@
         <!-- Actividad de inicio,  -->
         <activity
             android:name=".ui.activities.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,11 +31,17 @@
         </activity>
 
 
-        <activity android:name=".ui.activities.LoginActivity" />
+        <activity
+            android:name=".ui.activities.LoginActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.activities.ContentActivity"/>
+        <activity
+            android:name=".ui.activities.ContentActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.activities.BluetoothConnectionActivity"/>
+        <activity
+            android:name=".ui.activities.BluetoothConnectionActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
