@@ -4,9 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.eeg.pt1_v1.fragments.home.HomeFragment;
 import com.eeg.pt1_v1.fragments.profile.ProfileFragment;
-import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
+import com.eeg.pt1_v1.fragments.results.PatientResults;
 import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
 
 /**
@@ -16,7 +15,7 @@ import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
 public class Pager extends FragmentStatePagerAdapter{
 
     private int mTabCount;
-    public boolean isMEdic = true;
+    public boolean isMEdic = false;
 
     public Pager(FragmentManager fm, int tabCount) {
         super(fm);
@@ -47,7 +46,7 @@ public class Pager extends FragmentStatePagerAdapter{
                 case 0:
                     return new ProfileFragment();
                 case 1:
-                    return new RecordingFragment();
+                    return new PatientResults();
                 case 2:
                     return new ScheduleFragment();
                 default:

@@ -30,7 +30,7 @@ public class ContentActivity extends AppCompatActivity implements TabLayout.OnTa
 
     private int[] mTabIcons = {
             R.drawable.ic_profile,
-            R.drawable.ic_record,
+            R.drawable.ic_home,
             R.drawable.ic_calendar,
     };
 
