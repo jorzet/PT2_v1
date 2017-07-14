@@ -24,23 +24,23 @@ public class Cita {
 
 	}
 	public Date getFecha(){
-		return null;
+		return this.fecha;
 	}
 
 	public String getHora(){
-		return "";
+		return this.hora;
 	}
 
 	public Medico getMedico(){
-		return null;
+		return this.medico;
 	}
 
 	public String getObservaciones(){
-		return "";
+		return this.observaciones;
 	}
 
 	public Paciente getPaciente(){
-		return null;
+		return this.paciente;
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class Cita {
 	 * @param fecha
 	 */
 	public void setFecha(Date fecha){
-
+		this.fecha = fecha;
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class Cita {
 	 * @param hora
 	 */
 	public void setHora(String hora){
-
+		this.hora = hora;
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class Cita {
 	 * @param medico
 	 */
 	public void setMedico(Medico medico){
-
+		this.medico = medico;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class Cita {
 	 * @param observaciones
 	 */
 	public void setObservaciones(String observaciones){
-
+		this.observaciones = observaciones;
 	}
 
 	/**
@@ -80,6 +80,6 @@ public class Cita {
 	 * @param paciente
 	 */
 	public void setPaciente(Paciente paciente){
-
+		this.paciente = paciente;
 	}
 }//end Cita

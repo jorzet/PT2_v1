@@ -21,12 +21,12 @@ public class Estudio {
 	public void finalize() throws Throwable {
 
 	}
-	public void getFecha(){
-
+	public Date getFecha(){
+		return this.fecha;
 	}
 
 	public String getTiempo(){
-		return "";
+		return this.tiempo;
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class Estudio {
 	 * @param fecha
 	 */
 	public void setFecha(Date fecha){
-
+		this.fecha = fecha;
 	}
 
 	/**
@@ -42,6 +42,6 @@ public class Estudio {
 	 * @param tiempo
 	 */
 	public void setTiempo(String tiempo){
-
+		this.tiempo = tiempo;
 	}
 }//end Estudio

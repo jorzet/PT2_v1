@@ -23,23 +23,23 @@ public class Grabacion {
 
     }
     public String getCanal(){
-        return "";
+        return this.canal;
     }
 
     public float getFrecuenciaDominante(){
-        return 0;
+        return this.frecuenciaDominante;
     }
 
     public int getSegundo(){
-        return 0;
+        return this.segundo;
     }
 
     public double [] getSenial(){
-        return null;
+        return this.senial;
     }
 
     public String getTipoOnda(){
-        return "";
+        return this.tipoDeOnda;
     }
 
     /**
@@ -47,7 +47,7 @@ public class Grabacion {
      * @param canal
      */
     public void setCanal(String canal){
-
+        this.canal = canal;
     }
 
     /**
@@ -55,7 +55,7 @@ public class Grabacion {
      * @param frecuenciaDominante
      */
     public void setFrecuenciaDominante(float frecuenciaDominante){
-
+        this.frecuenciaDominante = frecuenciaDominante;
     }
 
     /**
@@ -63,7 +63,7 @@ public class Grabacion {
      * @param segundo
      */
     public void setSegundo(int segundo){
-
+        this.segundo = segundo;
     }
 
     /**
@@ -71,7 +71,7 @@ public class Grabacion {
      * @param senial
      */
     public void setSenial(double [] senial){
-
+        this.senial = senial;
     }
 
     /**
@@ -79,6 +79,6 @@ public class Grabacion {
      * @param tipoOnda
      */
     public void setTipoOnda(String tipoOnda){
-
+        this.tipoDeOnda = tipoOnda;
     }
 }//end Grabaci�n

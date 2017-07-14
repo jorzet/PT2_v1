@@ -6,7 +6,7 @@ package com.eeg.pt1_v1.entities;
  * @created 02-Jul-2017 1:24:04 PM
  */
 public class Medico extends Usuario {
-
+	Paciente[] pacientes;
 	public Cita m_Cita;
 
 	public Medico(){
@@ -17,31 +17,31 @@ public class Medico extends Usuario {
 		super.finalize();
 	}
 	public int getAge(){
-		return 0;
+		return this.age;
 	}
 
 	public String getEmail(){
-		return "";
+		return this.email;
 	}
 
 	public String getLastName(){
-		return "";
+		return this.lastName;
 	}
 
 	public String getName(){
-		return "";
+		return this.name;
 	}
 
 	public Paciente [] getPacientes(){
-		return null;
+		return this.pacientes;
 	}
 
 	public String getPassword(){
-		return "";
+		return this.password;
 	}
 
 	public byte [] getPrifilePhoto(){
-		return null;
+		return this.profilePhoto;
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class Medico extends Usuario {
 	 * @param age
 	 */
 	public void setAge(int age){
-
+		this.age = age;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class Medico extends Usuario {
 	 * @param email
 	 */
 	public void setEmail(String email){
-
+		this.email = email;
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class Medico extends Usuario {
 	 * @param lastName
 	 */
 	public void setLastName(String lastName){
-
+		this.lastName = lastName;
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class Medico extends Usuario {
 	 * @param name
 	 */
 	public void setName(String name){
-
+		this.name = name;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class Medico extends Usuario {
 	 * @param pacientes
 	 */
 	public void setPacientes(Paciente [] pacientes){
-
+		this.pacientes = pacientes;
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class Medico extends Usuario {
 	 * @param password
 	 */
 	public void setPassword(String password){
-
+		this.password = password;
 	}
 
 	/**
@@ -97,6 +97,6 @@ public class Medico extends Usuario {
 	 * @param profilePhoto
 	 */
 	public void setProfilePhoto(byte [] profilePhoto){
-
+		this.profilePhoto = profilePhoto;
 	}
 }//end Medico
