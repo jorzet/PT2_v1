@@ -63,11 +63,13 @@ public class ListViewAdapter extends ArrayAdapter<String> {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.mGeneralDescription.setText("Estudio programado");
         holder.mDescription.setText("Tienes una cita programada para el dia: "+getItem(position));
 
         //get first letter of each String item
 
         String[] date = getItem(position).split(" ");
+        holder.date.setText(date[1]);
 
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         // generate random color
@@ -84,11 +86,16 @@ public class ListViewAdapter extends ArrayAdapter<String> {
 
     private class ViewHolder {
         private ImageView mDate;
+        private TextView mGeneralDescription;
         private TextView mDescription;
+        private TextView date;
 
         public ViewHolder(View v) {
             mDate = (ImageView) v.findViewById(R.id.date_schedule);
+            date = (TextView) v.findViewById(R.id.date);
+            mGeneralDescription = (TextView) v.findViewById(R.id.general_description_schedule);
             mDescription = (TextView) v.findViewById(R.id.description_schedule);
+
         }
     }
 }

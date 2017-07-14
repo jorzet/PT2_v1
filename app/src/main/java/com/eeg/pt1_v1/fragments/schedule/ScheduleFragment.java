@@ -56,17 +56,17 @@ public class ScheduleFragment extends BaseFragment{
 
     private void setData() {
         stringArrayList = new ArrayList<>();
-        stringArrayList.add("13 en");
-        stringArrayList.add("1 feb");
-        stringArrayList.add("2 mar");
-        stringArrayList.add("5 abr");
-        stringArrayList.add("30 may");
-        stringArrayList.add("25 jun");
-        stringArrayList.add("11 jul");
-        stringArrayList.add("2 ago");
-        stringArrayList.add("11 sep");
-        stringArrayList.add("10 oct");
-        stringArrayList.add("29 nov");
-        stringArrayList.add("24 dic");
+        stringArrayList.add("13 Ene");
+        stringArrayList.add("1 Feb");
+        stringArrayList.add("2 Mar");
+        stringArrayList.add("5 Abr");
+        stringArrayList.add("30 May");
+        stringArrayList.add("25 Jun");
+        stringArrayList.add("11 Jul");
+        stringArrayList.add("2 Ago");
+        stringArrayList.add("11 Sep");
+        stringArrayList.add("10 Oct");
+        stringArrayList.add("29 Nov");
+        stringArrayList.add("24 Dic");
     }
 }
