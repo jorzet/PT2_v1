@@ -51,4 +51,7 @@
 
     <string name="scanning_devices">Escaneando dispositivos</string>
     <string name="skip_conection">SKIP</string>
+
+    <!--Schedule-->
+    <string name="text_recomendation">Por favor, coloca correctamente tus electrodos, la siguiente imagen te indicara si estan colocados de manera correcta (color verde) o estan mal colocados (color rojo)</string>
 </resources>

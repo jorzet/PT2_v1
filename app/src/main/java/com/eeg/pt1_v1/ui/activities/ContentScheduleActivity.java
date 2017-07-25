@@ -1,10 +1,16 @@
 package com.eeg.pt1_v1.ui.activities;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -17,6 +23,7 @@ import com.eeg.pt1_v1.R;
 public class ContentScheduleActivity extends AppCompatActivity{
     private ImageView mRoundedDate;
     private TextView mDate;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,8 @@ public class ContentScheduleActivity extends AppCompatActivity{
 
         mRoundedDate = (ImageView) findViewById(R.id.rounded_date_schedule_container);
         mDate = (TextView) findViewById(R.id.date_container_schedule);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_container_schedule);
+
         Bundle extras = getIntent().getExtras();
 
         String[] date = extras.getString("DATE_TEXT").split(" ");
@@ -37,6 +46,27 @@ public class ContentScheduleActivity extends AppCompatActivity{
         mRoundedDate.setImageDrawable(drawable);
 
 
+        int colorFrom = Color.WHITE;
+        int colorTo = color;
+
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        colorAnimation.setDuration(1000);
+        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                int color = (int) animator.getAnimatedValue();
+
+                mToolbar.setBackgroundColor(color);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(color);
+                }
+            }
+
+        });
+        colorAnimation.start();
+
+        mToolbar.setBackgroundColor(color);
     }
 
 }
