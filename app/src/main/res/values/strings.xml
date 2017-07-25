@@ -4,6 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="date_image_container_schedule">date_image_container_schedule</string>
+    <string name="date_text_container_schedule">date_text_container_schedule</string>
+
     <string name="add_user_notification_icon">add_user_notification</string>
     <string name="record_notification_icon">record_notification_icon</string>
     <string name="calendar_notification_icon">calendar_notification_icon</string>

@@ -1,10 +1,13 @@
 package com.eeg.pt1_v1.adapters;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +16,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.ui.activities.ContentActivity;
+import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
 
 import java.util.List;
 
@@ -69,7 +73,7 @@ public class ListViewAdapter extends ArrayAdapter<String> {
         //get first letter of each String item
 
         String[] date = getItem(position).split(" ");
-        holder.date.setText(date[1]);
+        holder.date.setText(date[1].substring(0,3));
 
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         // generate random color

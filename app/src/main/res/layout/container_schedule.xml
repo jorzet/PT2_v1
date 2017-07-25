@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_container_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:elevation="10dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <RelativeLayout
+            android:id="@+id/rounded_date_schedule"
+            android:layout_marginEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/rounded_date_schedule_container"
+                android:transitionName="@string/date_image_container_schedule"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:layout_width="80dp"
+                android:layout_height="80dp" >
+            </ImageView>
+            <TextView
+                android:id="@+id/date_container_schedule"
+                android:transitionName="@string/date_text_container_schedule"
+                android:scaleType="centerCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="90dp"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/negro_semitransparente"
+                />
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+</LinearLayout>
