@@ -16,6 +16,9 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.eeg.pt1_v1.R;
 
+import static com.eeg.pt1_v1.fragments.schedule.ScheduleFragment.DATE_COLOR;
+import static com.eeg.pt1_v1.fragments.schedule.ScheduleFragment.DATE_TEXT;
+
 /**
  * Created by jorgezeped on 24/07/17.
  */
@@ -36,36 +39,28 @@ public class ContentScheduleActivity extends AppCompatActivity{
 
         Bundle extras = getIntent().getExtras();
 
-        String[] date = extras.getString("DATE_TEXT").split(" ");
+        String[] date = extras.getString(DATE_TEXT).split(" ");
         mDate.setText(date[1]);
 
         ColorGenerator generator = ColorGenerator.MATERIAL;
-        int color = generator.getColor(extras.getString("COLOR"));
+        int color = generator.getColor(extras.getString(DATE_COLOR));
         TextDrawable drawable = TextDrawable.builder().buildRound(date[0], color);
 
         mRoundedDate.setImageDrawable(drawable);
 
-
-        int colorFrom = Color.WHITE;
-        int colorTo = color;
-
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), Color.WHITE, color);
         colorAnimation.setDuration(1000);
         colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animator) {
                 int color = (int) animator.getAnimatedValue();
-
                 mToolbar.setBackgroundColor(color);
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     getWindow().setStatusBarColor(color);
                 }
             }
-
         });
         colorAnimation.start();
-
         mToolbar.setBackgroundColor(color);
     }
 
