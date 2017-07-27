@@ -3,7 +3,6 @@ package com.eeg.pt1_v1.ui.activities;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +15,8 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.eeg.pt1_v1.R;
 
-import static com.eeg.pt1_v1.fragments.schedule.ScheduleFragment.DATE_COLOR;
-import static com.eeg.pt1_v1.fragments.schedule.ScheduleFragment.DATE_TEXT;
+import static com.eeg.pt1_v1.fragments.schedule.SchedulesFragment.DATE_COLOR;
+import static com.eeg.pt1_v1.fragments.schedule.SchedulesFragment.DATE_TEXT;
 
 /**
  * Created by jorgezeped on 24/07/17.

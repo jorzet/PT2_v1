@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.eeg.pt1_v1.fragments.profile.ProfileFragment;
 import com.eeg.pt1_v1.fragments.results.PatientResults;
-import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
+import com.eeg.pt1_v1.fragments.schedule.SchedulesFragment;
 
 /**
  * Created by Jorge Zepeda Tinoco on 09/07/17.
@@ -34,9 +34,9 @@ public class Pager extends FragmentStatePagerAdapter{
                 case 0:
                     return new ProfileFragment();
                 case 1:
-                    return new ScheduleFragment();
+                    return new SchedulesFragment();
                 case 2:
-                    return new ScheduleFragment();
+                    return new SchedulesFragment();
                 default:
                     return null;
             }
@@ -48,7 +48,7 @@ public class Pager extends FragmentStatePagerAdapter{
                 case 1:
                     return new PatientResults();
                 case 2:
-                    return new ScheduleFragment();
+                    return new SchedulesFragment();
                 default:
                     return null;
             }
