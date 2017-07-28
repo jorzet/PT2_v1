@@ -40,37 +40,11 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/recomendation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/text_spetialist_suggestion"
+    <FrameLayout
+        android:id="@+id/fragment_container_schedule"
         android:layout_below="@+id/toolbar_container_schedule"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="36dp" />
-    <TextView
-        android:id="@+id/spetialist_recomendation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Por favor coloca bien lo electrodos para que no haya inconsistencias en el estudio, procura ser cuidadoso"
-        android:layout_below="@+id/recomendation"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-    <ImageView
-        android:id="@+id/image_10_20_system"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_10_20_system"
-        android:layout_below="@+id/spetialist_recomendation"
-        android:layout_centerHorizontal="true"/>
+        android:layout_height="match_parent">
+    </FrameLayout>
 
-    <Button
-        android:id="@+id/start_recording"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/image_10_20_system"
-        android:text="Comenzar grabación"
-        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

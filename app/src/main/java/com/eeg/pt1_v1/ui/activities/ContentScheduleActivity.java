@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
 
 import static com.eeg.pt1_v1.fragments.schedule.SchedulesFragment.DATE_COLOR;
 import static com.eeg.pt1_v1.fragments.schedule.SchedulesFragment.DATE_TEXT;
@@ -61,6 +63,11 @@ public class ContentScheduleActivity extends AppCompatActivity{
         });
         colorAnimation.start();
         mToolbar.setBackgroundColor(color);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.fragment_container_schedule, new ScheduleFragment());
+        ft.commit();
+
     }
 
 }

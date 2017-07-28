@@ -125,6 +125,7 @@ public class BluetoothConnectionActivity extends AppCompatActivity {
             if (mBluetoothAdapter.isEnabled()){
                 if(mBluetoothAdapter.isDiscovering()){
                     mStateBluetooth.setText(BluetoothConnectionActivity.SCANNING_DEVICES);
+                    mProgressBar.setVisibility(View.VISIBLE);
                 }else{
                     mStateBluetooth.setText(BluetoothConnectionActivity.BLUETOOTH_TURNED_ON);
                     mProgressBar.setVisibility(View.VISIBLE);

@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 android:backgroundTint="@color/colorGreenButton"
-                android:textColor="@color/white"
+                android:textColor="@color/negro"
                 android:text="@string/restart_password"
                 android:layout_marginTop="52dp"
                 android:layout_below="@+id/inputEmail"

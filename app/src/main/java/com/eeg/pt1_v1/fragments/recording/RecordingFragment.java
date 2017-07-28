@@ -24,8 +24,9 @@ public class RecordingFragment extends BaseFragment{
 
         if(container == null)
             return null;
+        View rootView = inflater.inflate(R.layout.record_fragment, container, false);
 
-        return inflater.inflate(R.layout.record_fragment, container, false);
+        return rootView;
     }
 
     @Override

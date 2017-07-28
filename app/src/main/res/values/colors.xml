@@ -8,12 +8,13 @@
     <color name="colorTool">#FEFEFE</color>
     <color name="colorBackgrond">#FEFEFE</color>
 
-    <color name="white">#000000</color>
+    <color name="negro">#000000</color>
     <color name="negro_semitransparente">#B2000000</color>
     <color name="blanco">#fafafa</color>
 
     <color name="orange">#FF9900</color>
     <color name="green">#009900</color>
     <color name="blue">#000099</color>
+    <color name="blue_progress_bar_recording">#00ABF0</color>
     <color name="colorYellow">#F5FA55</color>
 </resources>
