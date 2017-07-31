@@ -16,5 +16,5 @@
     <color name="green">#009900</color>
     <color name="blue">#000099</color>
     <color name="blue_progress_bar_recording">#00ABF0</color>
-    <color name="colorYellow">#F5FA55</color>
+    <color name="red">#D41313</color>
 </resources>

@@ -4,6 +4,6 @@
     android:shape="ring"
     android:thickness="15dp"
     android:useLevel="false">
-    <solid android:color="@color/blue_progress_bar_recording" />
+    <solid android:color="@color/red" />
 
 </shape>
