@@ -11,7 +11,7 @@ import com.eeg.pt1_v1.fragments.logintemsandconditions.SinginFragment;
  * Created by Jorge Zepeda Tinoco on 7/1/2017.
  */
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends BaseActivityLifecycle{
 
     public static final String TAG = "login_activity";
 

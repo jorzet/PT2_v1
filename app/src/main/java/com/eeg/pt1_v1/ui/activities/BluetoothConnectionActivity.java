@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * Edited by Jorge Zepeda Tinoco on 26/07/17
  */
 
-public class BluetoothConnectionActivity extends AppCompatActivity {
+public class BluetoothConnectionActivity extends BaseActivityLifecycle {
 
     /* To chech the bluetooth adapter status  */
     private static final int REQUEST_ENABLE_BT = 1;

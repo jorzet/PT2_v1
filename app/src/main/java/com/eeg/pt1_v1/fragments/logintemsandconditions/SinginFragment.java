@@ -1,8 +1,10 @@
 package com.eeg.pt1_v1.fragments.logintemsandconditions;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Palabras;
+import com.eeg.pt1_v1.services.webservice.HttpRequest;
+import com.eeg.pt1_v1.services.webservice.MetadataInfo;
 import com.eeg.pt1_v1.ui.activities.BluetoothConnectionActivity;
 import com.eeg.pt1_v1.ui.activities.ContentActivity;
 import com.eeg.pt1_v1.ui.activities.LoginActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Jorge on 7/2/2017.
@@ -28,6 +36,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
     private TextView mRestartPassword;
     private EditText mEmail;
     private EditText mPassword;
+    private TextView mErrorLogin;
 
     /* For the SaveInstanceState */
     private static final String EMAIL_TEXT = "email_text";
@@ -53,6 +62,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
         mRestartPassword = (TextView) rootView.findViewById(R.id.link_to_forgot);
         mEmail = (EditText) rootView.findViewById(R.id.email_user_singin);
         mPassword = (EditText) rootView.findViewById(R.id.password_user_singin);
+        mErrorLogin = (TextView) rootView.findViewById(R.id.error_login);
 
         mLogin.setOnClickListener(this);
         mSingUp.setOnClickListener(this);
@@ -85,7 +95,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.singin_button:
-                goHomeActivity();
+                doLogIn();
                 break;
             case R.id.link_to_signup:
                 goSingupFragment();
@@ -93,6 +103,36 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
             case R.id.link_to_forgot:
                 goForgotFragment();
                 break;
+        }
+    }
+
+    private void doLogIn() {
+        String email = mEmail.getText().toString();
+        String password = mPassword.getText().toString();
+        if(!email.equals("") && !password.equals("")){
+            MetadataInfo info = new MetadataInfo();
+            info.requestLogin(email,password,getContext());
+
+            String response = info.getResponse();
+
+            if(response.contains("Error") && response.contains("Message")) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int codeError = json.getInt("Error");
+                    String message = json.getString("Message");
+
+                    mErrorLogin.setText(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(response.equals(Palabras.ERROR_FROM_WEB_WERVICE) || response.equals(""))
+                mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
+            else
+                goHomeActivity();
+        }
+        else{
+            mErrorLogin.setText(Palabras.ERROR_EMTY_USER_AND_PASSWORD);
         }
     }
 
@@ -110,4 +150,31 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestartPasswordFragment()).addToBackStack(LoginActivity.TAG).commit();
     }
 
-}
+    /*private class DoLogIn extends AsyncTask<String, Long, String> {
+        protected String doInBackground(String... data) {
+            return new MetadataInfo().requestLogin(data[0],data[1],getContext());
+        }
+
+        protected void onPostExecute(String response) {
+            Log.i("respuesta2:",response);
+            if(response.contains("Error") && response.contains("Message")) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int codeError = json.getInt("Error");
+                    String message = json.getString("Message");
+
+                    mErrorLogin.setText(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(response.equals(Palabras.ERROR_FROM_WEB_WERVICE) || response.equals(""))
+                mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
+            else
+                goHomeActivity();
+
+        }
+    }*/
+
+
+    }

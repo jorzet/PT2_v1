@@ -16,7 +16,7 @@ import com.eeg.pt1_v1.R;
  */
 
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivityLifecycle {
     private static final int TIME_OUT = 3000;
 
     @Override

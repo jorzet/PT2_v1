@@ -24,7 +24,7 @@ import static com.eeg.pt1_v1.fragments.schedule.SchedulesFragment.DATE_TEXT;
  * Created by jorgezeped on 24/07/17.
  */
 
-public class ContentScheduleActivity extends AppCompatActivity{
+public class ContentScheduleActivity extends BaseActivityLifecycle{
     private ImageView mRoundedDate;
     private TextView mDate;
     private Toolbar mToolbar;

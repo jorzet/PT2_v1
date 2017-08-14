@@ -20,7 +20,7 @@ import com.eeg.pt1_v1.adapters.Pager;
  * Created by Jorge Zepeda Tinoco on 7/1/2017.
  */
 
-public class ContentActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener{
+public class ContentActivity extends BaseActivityLifecycle implements TabLayout.OnTabSelectedListener{
 
     /* For the View */
     private ViewPager mViewPager;

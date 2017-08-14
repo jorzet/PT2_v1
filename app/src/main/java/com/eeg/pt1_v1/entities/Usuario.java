@@ -7,91 +7,104 @@ package com.eeg.pt1_v1.entities;
  */
 public class Usuario {
 
-	protected int age;
-	protected String email;
-	protected String lastName;
-	protected String name;
-	protected String password;
-	protected byte [] profilePhoto;
-	public Datos mDatos;
+    protected int idUsuario;
+    protected String name;
+    protected String fistLastName;
+    protected String secondLastName;
+    protected String email;
+    protected String password;
+    protected String gender;
+    protected byte [] profilePhoto;
 
-	public Usuario(){
+    public Usuario(){
 
-	}
+    }
 
-	public void finalize() throws Throwable {
+    public void finalize() throws Throwable {
 
-	}
-	public int getAge(){
-		return this.age;
-	}
+    }
+    public int getId(){
+        return this.idUsuario;
+    }
 
-	public String getEmail(){
-		return this.email;
-	}
+    public String getEmail(){
+        return this.email;
+    }
 
-	public String getLastName(){
-		return this.lastName;
-	}
+    public String getFirstLastName(){
+        return this.fistLastName;
+    }
+    public String getSecondLastName(){
+        return this.fistLastName;
+    }
+    public String getName(){
+        return this.name;
+    }
 
-	public String getName(){
-		return this.name;
-	}
+    public String getPassword(){
+        return this.password;
+    }
 
-	public String getPassword(){
-		return this.password;
-	}
+    public byte [] getPrifilePhoto(){
+        return this.profilePhoto;
+    }
+    public String getGender(){
+        return this.gender;
+    }
 
-	public byte [] getPrifilePhoto(){
-		return this.profilePhoto;
-	}
 
-	/**
-	 * 
-	 * @param age
-	 */
-	public void setAge(int age){
-		this.age = age;
+    public void setId(int idUsuario){
+        this.idUsuario = idUsuario;
+    }
 
-	}
+    /**
+     *
+     * @param email
+     */
+    public void setEmail(String email){
+        this.email = email;
+    }
 
-	/**
-	 * 
-	 * @param email
-	 */
-	public void setEmail(String email){
-		this.email = email;
-	}
+    /**
+     *
+     * @param fistLastName
+     */
+    public void setFistLastName(String fistLastName){
+        this.fistLastName = fistLastName;
+    }
 
-	/**
-	 * 
-	 * @param lastName
-	 */
-	public void setLastName(String lastName){
-		this.lastName = lastName;
-	}
+    /**
+     *
+     * @param secondLastName
+     */
+    public void setSecondLastName(String secondLastName){
+        this.secondLastName = secondLastName;
+    }
+    /**
+     *
+     * @param name
+     */
+    public void setName(String name){
+        this.name = name;
+    }
 
-	/**
-	 * 
-	 * @param name
-	 */
-	public void setName(String name){
-		this.name = name;
-	}
+    /**
+     *
+     * @param password
+     */
+    public void setPassword(String password){
+        this.password = password;
+    }
 
-	/**
-	 * 
-	 * @param password
-	 */
-	public void setPassword(String password){
-		this.password = password;
-	}
+    /**
+     *
+     * @param profilePhoto
+     */
+    public void setProfilePhoto(byte [] profilePhoto){
+        this.profilePhoto = profilePhoto;
+    }
 
-	/**
-	 * 
-	 * @param profilePhoto
-	 */
-	public void setProfilePhoto(byte [] profilePhoto){
-		this.profilePhoto = profilePhoto;
-	}
+    public void setGender(String gender){
+        this.gender=gender;
+    }
 }//end Usuario

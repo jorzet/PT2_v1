@@ -1,5 +1,4 @@
 package com.eeg.pt1_v1.entities;
-
 /**
  * @author Jorge
  * @version 1.0
@@ -7,78 +6,45 @@ package com.eeg.pt1_v1.entities;
  */
 public class Grabacion {
 
-    private String canal;
-    private float frecuenciaDominante;
-    private int segundo;
-    private double [] senial;
-    private String tipoDeOnda;
-    public Estudio m_Estudio;
-    public Datos m_Datos;
+    private int idGrabacion;
+    private Paciente paciente;
+    private String nombreArchivo;
 
     public Grabacion(){
 
     }
 
-    public void finalize() throws Throwable {
 
-    }
-    public String getCanal(){
-        return this.canal;
+    public int getIdGrabacion(){
+        return this.idGrabacion;
     }
 
-    public float getFrecuenciaDominante(){
-        return this.frecuenciaDominante;
+    public Paciente getPaciente(){
+        return this.paciente;
     }
 
-    public int getSegundo(){
-        return this.segundo;
+    public String getNombreArchivo(){
+        return this.nombreArchivo;
     }
-
-    public double [] getSenial(){
-        return this.senial;
-    }
-
-    public String getTipoOnda(){
-        return this.tipoDeOnda;
-    }
-
     /**
      *
-     * @param canal
+     * @param idGrabacion
      */
-    public void setCanal(String canal){
-        this.canal = canal;
+    public void setIdGrabacion(int idGrabacion){
+        this.idGrabacion = idGrabacion;
     }
-
     /**
      *
-     * @param frecuenciaDominante
+     * @param paciente
      */
-    public void setFrecuenciaDominante(float frecuenciaDominante){
-        this.frecuenciaDominante = frecuenciaDominante;
+    public void setPaciente(Paciente paciente){
+        this.paciente = paciente;
     }
-
     /**
      *
-     * @param segundo
+     * @param nombreArchivo
      */
-    public void setSegundo(int segundo){
-        this.segundo = segundo;
-    }
-
-    /**
-     *
-     * @param senial
-     */
-    public void setSenial(double [] senial){
-        this.senial = senial;
-    }
-
-    /**
-     *
-     * @param tipoOnda
-     */
-    public void setTipoOnda(String tipoOnda){
-        this.tipoDeOnda = tipoOnda;
+    public void setNombreArchivo(String nombreArchivo){
+        this.nombreArchivo = nombreArchivo;
     }
 }//end Grabaci�n
