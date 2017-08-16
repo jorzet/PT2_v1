@@ -109,30 +109,8 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
     private void doLogIn() {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
-        if(!email.equals("") && !password.equals("")){
-            MetadataInfo info = new MetadataInfo();
-            info.requestLogin(email,password,getContext());
-
-            String response = info.getResponse();
-
-            if(response.contains("Error") && response.contains("Message")) {
-                try {
-                    JSONObject json = new JSONObject(response);
-                    int codeError = json.getInt("Error");
-                    String message = json.getString("Message");
-
-                    mErrorLogin.setText(message);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            else if(response.equals(Palabras.ERROR_FROM_WEB_WERVICE) || response.equals(""))
-                mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
-            else
-                goHomeActivity();
-        }
-        else{
-            mErrorLogin.setText(Palabras.ERROR_EMTY_USER_AND_PASSWORD);
+        if(!email.equals("") && !password.equals("")) {
+            new DoLogIn().execute(email,password);
         }
     }
 
@@ -150,9 +128,11 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestartPasswordFragment()).addToBackStack(LoginActivity.TAG).commit();
     }
 
-    /*private class DoLogIn extends AsyncTask<String, Long, String> {
+    private class DoLogIn extends AsyncTask<String, Long, String> {
         protected String doInBackground(String... data) {
-            return new MetadataInfo().requestLogin(data[0],data[1],getContext());
+            String respuesta ;
+            while((respuesta = new MetadataInfo().requestLogin(data[0],data[1]))==null);
+            return respuesta;
         }
 
         protected void onPostExecute(String response) {
@@ -174,7 +154,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
                 goHomeActivity();
 
         }
-    }*/
+    }
 
 
     }
