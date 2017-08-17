@@ -37,7 +37,8 @@ public class Palabras {
     public static final String ERROR_INCORRECT_EMAIL_OR_PASSWORD = "Error, el usuario y/o contraseña son invalidos";
     public static final String ERROR_EMTY_USER_AND_PASSWORD = "Error, por favor ingresa el usuario y contraseña";
 
-    public static final String ERROR_FROM_WEB_WERVICE = "Error al obtener información del servidor, vuelve a intentarlo";
+    public static final String ERROR_FROM_WEB_WERVICE = "Error al obtener información del servidor, vuelve a intentarlo más tarde";
+    public static final String ERROR_FROM_NETWORK_NOT_CONNECTED = "Error, Conexión a internet no disponible";
 
 
 }

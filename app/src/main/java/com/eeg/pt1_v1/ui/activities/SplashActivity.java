@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.security.AccessToken;
 
 //import com.facebook.AccessToken;
 //import com.facebook.FacebookSdk;
@@ -34,28 +35,24 @@ public class SplashActivity extends BaseActivityLifecycle {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-          //      if(AccessToken.getCurrentAccessToken()==null){
-
-                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(i);
-            /*)    }
-                else{
+                if(AccessToken.getCurrentAccessToken(getApplicationContext())==null)
+                    goSignInActivity();
+                else
                     goHomeActivity();
-                }
-            */
-                finish();
             }
         }, TIME_OUT);
 
     }
 
     private void goSignInActivity(){
-
+        Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+        startActivity(i);
     }
 
     private void goHomeActivity(){
-        //Intent i = new Intent(Splash.this, HomeActivity.class);
-        //startActivity(i);
+        Intent intent = new Intent(SplashActivity.this, ContentActivity.class);
+        startActivity(intent);
+        SplashActivity.this.finish();
     }
 
     @Override

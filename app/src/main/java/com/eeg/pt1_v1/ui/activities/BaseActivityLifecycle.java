@@ -12,15 +12,11 @@ public class BaseActivityLifecycle extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-
     }
 
 

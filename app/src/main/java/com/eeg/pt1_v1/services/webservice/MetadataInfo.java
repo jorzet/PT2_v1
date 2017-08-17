@@ -1,6 +1,9 @@
 package com.eeg.pt1_v1.services.webservice;
 
+import android.content.Context;
+
 import com.eeg.pt1_v1.entities.Especialista;
+import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.entities.Usuario;
 /**
  * Created by Jorge Zepeda Tinoco on 13/08/17.
@@ -21,9 +24,15 @@ public class MetadataInfo {
     private static final String GET_PATIENT_SCHEDULES = "/getpatientschedules/";
     private static final String GET_STUDY_BY_PATIENT = "/getstudybypatient/";
 
-    public String requestLogin(String email, String hashPassword){
+    public String requestLogin(String email, String hashPassword, Context context){
         /*TODO obtain the hash password*/
-        return HttpRequest.sendGetRequest(MetadataInfo.URL + MetadataInfo.SING_IN + JSONBuilder.bildLoginJson(email,hashPassword));
+        if(HttpRequest.isConnected(context))
+            return HttpRequest.sendGetRequest(MetadataInfo.URL +
+                    MetadataInfo.SING_IN +
+                    JSONBuilder.bildLoginJson(email,hashPassword));
+        else
+            return Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED;
+
     }
 
     public String requestSingupPatient(Usuario user){

@@ -129,7 +129,6 @@
         app:mrl_rippleOverlay="true" >
 
         <LinearLayout
-            android:onClick="goBluetoothConection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fff"

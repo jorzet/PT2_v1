@@ -1,7 +1,12 @@
 package com.eeg.pt1_v1.fragments.recording;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
+import com.eeg.pt1_v1.ui.activities.ContentActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,11 +38,13 @@ public class RecordingFragment extends BaseFragment{
             R.drawable.ic_stop_recording
     };
 
+    private String mTime;
     private long totalTimeCountInMilliSeconds = 60000; // mili-seconds
     private long everyTime = 1000; //mili-seconds
     private long timeCounter = 0;
     private CountDownTimer mCountDownTimer;
     private boolean isRecording = false;
+    private boolean isNotificationAble = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +71,37 @@ public class RecordingFragment extends BaseFragment{
         return rootView;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        isNotificationAble = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isNotificationAble = false;
+        NotificationManager notificationManager = (NotificationManager) getContext()
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(0);
+    }
+
+    private void addNotification() {
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(getContext())
+                        .setSmallIcon(R.drawable.ic_chronometer_notification)
+                        .setContentTitle("Tiempo restante: "+mTime)
+                        .setContentText("Total de tiempo: ");
+
+        Intent notificationIntent = new Intent(getContext(), getActivity().getClass());
+        PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        NotificationManager manager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+    }
+
     private ImageView.OnClickListener mStartStopRecordingListener
             = new View.OnClickListener() {
         @Override
@@ -75,7 +114,6 @@ public class RecordingFragment extends BaseFragment{
                 mStartRecording.setImageResource(mStartStopRecordingIcon[1]);
                 startCountDownTimer();
             }
-
             isRecording = !isRecording;
         }
     };
@@ -94,9 +132,13 @@ public class RecordingFragment extends BaseFragment{
             @Override
             public void onTick(long millisUntilFinished) {
                 Log.i("TIME","time: "+millisUntilFinished+" time2: "+timeCounter);
-                mChronometerRecording.setText(hmsTimeFormatter(millisUntilFinished));
-                mProgressBarCircle.setProgress((int) ((timeCounter*100)/totalTimeCountInMilliSeconds));
-                mPorcentageProgress.setText((int) ((timeCounter*100)/totalTimeCountInMilliSeconds)+"%");
+                mTime = hmsTimeFormatter(millisUntilFinished);
+                mChronometerRecording.setText(mTime);
+                mProgressBarCircle.setProgress((int) ((millisUntilFinished*100)/totalTimeCountInMilliSeconds));
+                mPorcentageProgress.setText((int) ((millisUntilFinished*100)/totalTimeCountInMilliSeconds)+"%");
+
+                if(isNotificationAble)
+                    addNotification();
             }
 
             @Override

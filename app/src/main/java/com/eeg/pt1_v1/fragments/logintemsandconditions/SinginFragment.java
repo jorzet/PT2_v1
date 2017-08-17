@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.services.webservice.HttpRequest;
+import com.eeg.pt1_v1.services.webservice.JSONBuilder;
 import com.eeg.pt1_v1.services.webservice.MetadataInfo;
 import com.eeg.pt1_v1.ui.activities.BluetoothConnectionActivity;
 import com.eeg.pt1_v1.ui.activities.ContentActivity;
@@ -37,6 +39,8 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
     private EditText mEmail;
     private EditText mPassword;
     private TextView mErrorLogin;
+    private ProgressBar mProgressBar;
+    private View mLoginContent;
 
     /* For the SaveInstanceState */
     private static final String EMAIL_TEXT = "email_text";
@@ -63,6 +67,8 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
         mEmail = (EditText) rootView.findViewById(R.id.email_user_singin);
         mPassword = (EditText) rootView.findViewById(R.id.password_user_singin);
         mErrorLogin = (TextView) rootView.findViewById(R.id.error_login);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.login_progress);
+        mLoginContent = (View) rootView.findViewById(R.id.login_content);
 
         mLogin.setOnClickListener(this);
         mSingUp.setOnClickListener(this);
@@ -110,34 +116,51 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
         if(!email.equals("") && !password.equals("")) {
-            new DoLogIn().execute(email,password);
+            new DoLogIn().execute(email, password);
+            mLoginContent.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.VISIBLE);
         }
+        else
+            mErrorLogin.setText(Palabras.ERROR_EMTY_USER_AND_PASSWORD);
     }
 
     private void goHomeActivity() {
-        Intent intent = new Intent(getActivity(), BluetoothConnectionActivity.class);
+        Intent intent = new Intent(getActivity(), ContentActivity.class);
         startActivity(intent);
         getActivity().finish();
     }
 
     private void goSingupFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new SingupFragment()).addToBackStack(LoginActivity.TAG).commit();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new SingupFragment())
+                .addToBackStack(LoginActivity.TAG)
+                .commit();
 
     }
     private void goForgotFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestartPasswordFragment()).addToBackStack(LoginActivity.TAG).commit();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new RestartPasswordFragment())
+                .addToBackStack(LoginActivity.TAG)
+                .commit();
     }
 
     private class DoLogIn extends AsyncTask<String, Long, String> {
         protected String doInBackground(String... data) {
-            String respuesta ;
-            while((respuesta = new MetadataInfo().requestLogin(data[0],data[1]))==null);
-            return respuesta;
+            return new MetadataInfo().requestLogin(data[0], data[1], getContext());
         }
 
         protected void onPostExecute(String response) {
-            Log.i("respuesta2:",response);
-            if(response.contains("Error") && response.contains("Message")) {
+
+            mProgressBar.setVisibility(View.GONE);
+            mLoginContent.setVisibility(View.VISIBLE);
+
+            /*if(response==null || response.equals(""))
+                mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
+            else if(response.equals(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED))
+                mErrorLogin.setText(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED);
+            else if(response.contains("Error") && response.contains("Message")) {
                 try {
                     JSONObject json = new JSONObject(response);
                     int codeError = json.getInt("Error");
@@ -148,13 +171,8 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
                     e.printStackTrace();
                 }
             }
-            else if(response.equals(Palabras.ERROR_FROM_WEB_WERVICE) || response.equals(""))
-                mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
-            else
+            else if(JSONBuilder.validateJsonStructure(response))*/
                 goHomeActivity();
-
         }
     }
-
-
-    }
+}

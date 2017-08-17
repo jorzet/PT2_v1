@@ -3,6 +3,7 @@ package com.eeg.pt1_v1.services.webservice;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -19,19 +20,17 @@ import java.net.URL;
 
 public class HttpRequest {
 
-    private static final int CONNECT_TIMEOUT = 50000; // 50 seconds
-    private static final int READ_TIMEOUT = 45000; // 45 seconds
+    private static final int CONNECT_TIMEOUT = 2000; // 2 seconds
+    private static final int READ_TIMEOUT = 15000; // 15 seconds
 
     public static boolean isConnected(final Context context) {
-        if (context == null) {
+        if (context == null)
             return false;
-        }
+
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        boolean connected = networkInfo != null
+        return networkInfo != null
                 && networkInfo.isConnectedOrConnecting();
-
-        return connected;
     }
 
 
@@ -67,16 +66,17 @@ public class HttpRequest {
 
             return total.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("IOException",e.getMessage());
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
+            return null;
         } finally {
+            Log.i("Connection","Get request");
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
         }
-        return null;
     }
 
 

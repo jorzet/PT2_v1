@@ -113,13 +113,4 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
 
     }
 
-    public void goBluetoothConection(View view) {
-        Intent i = new Intent(ContentActivity.this, BluetoothConnectionActivity.class);
-
-        View sharedView = view.findViewById(R.id.small_bluetooth_icon);
-        String transitionName = getString(R.string.error_bluetooth_icon);
-
-        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this, sharedView, transitionName);
-        startActivity(i, transitionActivityOptions.toBundle());
-    }
 }

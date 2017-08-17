@@ -9,8 +9,13 @@ import org.json.JSONObject;
  * Created by ing_ragde on 13/08/17.
  */
 
-class JSONBuilder {
-    static String bildLoginJson(String email, String password){
+public class JSONBuilder {
+
+    public static boolean validateJsonStructure(String json){
+        return true;
+    }
+
+    public static String bildLoginJson(String email, String password){
         JSONObject json = new JSONObject();
         try {
             json.put("email",email);
