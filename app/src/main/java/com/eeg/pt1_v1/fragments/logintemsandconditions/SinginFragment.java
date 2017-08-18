@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.entities.Palabras;
+import com.eeg.pt1_v1.services.database.InfoHandler;
 import com.eeg.pt1_v1.services.webservice.HttpRequest;
 import com.eeg.pt1_v1.services.webservice.JSONBuilder;
 import com.eeg.pt1_v1.services.webservice.MetadataInfo;
@@ -153,10 +154,9 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
 
         protected void onPostExecute(String response) {
 
-            mProgressBar.setVisibility(View.GONE);
-            mLoginContent.setVisibility(View.VISIBLE);
 
-            /*if(response==null || response.equals(""))
+
+            if(response==null || response.equals(""))
                 mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
             else if(response.equals(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED))
                 mErrorLogin.setText(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED);
@@ -171,8 +171,13 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
                     e.printStackTrace();
                 }
             }
-            else if(JSONBuilder.validateJsonStructure(response))*/
+            else if(JSONBuilder.validateJsonStructure(response)) {
+                InfoHandler.savePatient(response, getContext());
                 goHomeActivity();
+            }
+
+            mProgressBar.setVisibility(View.GONE);
+            mLoginContent.setVisibility(View.VISIBLE);
         }
     }
 }

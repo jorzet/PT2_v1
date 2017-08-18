@@ -12,9 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.adapters.Pager;
+import com.eeg.pt1_v1.entities.Paciente;
+import com.eeg.pt1_v1.services.database.InfoHandler;
 
 /**
  * Created by Jorge Zepeda Tinoco on 7/1/2017.
@@ -23,6 +26,9 @@ import com.eeg.pt1_v1.adapters.Pager;
 public class ContentActivity extends BaseActivityLifecycle implements TabLayout.OnTabSelectedListener{
 
     /* For the View */
+    private ImageView mProfilePhoto;
+    private TextView mName;
+    private TextView mAge;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     ImageView mBluetoothIcon;
@@ -62,6 +68,9 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
         setSupportActionBar(toolbar);
 
         getCurrentUser();
+        mProfilePhoto = (ImageView) findViewById(R.id.user_profile_photo);
+        mName = (TextView) findViewById(R.id.user_profile_name);
+        mAge = (TextView) findViewById(R.id.user_profile_age);
 
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mBluetoothIcon = (ImageView) findViewById(R.id.small_bluetooth_icon);
@@ -86,6 +95,15 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
         mTabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         setIcons();
         mTabLayout.setOnTabSelectedListener(this);
+
+
+        getInfoUser();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getInfoUser();
     }
 
     @Override
@@ -109,8 +127,13 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     }
 
     public void getCurrentUser(){
-        //Using shared preferences
 
+    }
+
+    private void getInfoUser(){
+        Paciente patient = InfoHandler.getPatientInfo(getApplicationContext());
+        mName.setText(patient.getName() + " " + patient.getFirstLastName() + " " + patient.getSecondLastName());
+        mAge.setText(patient.getAge());
     }
 
 }

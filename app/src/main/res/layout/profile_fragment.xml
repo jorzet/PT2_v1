@@ -52,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/especialista_paciente"
                     android:text="Laura Gray Jimenez"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -75,6 +76,7 @@
                     android:paddingTop="2dp" />
 
                 <TextView
+                    android:id="@+id/enfermedad_paciente"
                     android:text="Epilepsia"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -105,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
                 <TextView
-                    android:text="Estatura"
+                    android:text="Genero"
                     android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -125,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="1.75 cm."
+                    android:id="@+id/genero_paciente"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -199,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Actualmente no tienes estudios"
+                    android:id="@+id/last_study_patient"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -223,7 +225,7 @@
                     android:paddingTop="2dp" />
 
                 <TextView
-                    android:text="10"
+                    android:id="@+id/total_studies_patient"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -260,14 +262,14 @@
                     android:text="Acerca de este usuario"
                     android:textStyle="bold"/>
                 <TextView
-                    android:id="@+id/user_last_schedule"
+                    android:id="@+id/about_patient"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:elevation="4dp"
                     android:paddingTop="20dp"
                     android:gravity="center"
-                    android:text="Aqui va la informacion relevante al tratamiento y diagnosticacion que el medico asigna"/>
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

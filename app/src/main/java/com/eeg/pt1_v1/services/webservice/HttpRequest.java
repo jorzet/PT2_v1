@@ -20,7 +20,7 @@ import java.net.URL;
 
 public class HttpRequest {
 
-    private static final int CONNECT_TIMEOUT = 2000; // 2 seconds
+    private static final int CONNECT_TIMEOUT = 5000; // 5 seconds
     private static final int READ_TIMEOUT = 15000; // 15 seconds
 
     public static boolean isConnected(final Context context) {
@@ -66,7 +66,7 @@ public class HttpRequest {
 
             return total.toString();
         } catch (IOException e) {
-            Log.e("IOException",e.getMessage());
+            //Log.e("IOException",e.getMessage());
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
