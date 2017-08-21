@@ -70,7 +70,7 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
         getCurrentUser();
         mProfilePhoto = (ImageView) findViewById(R.id.user_profile_photo);
         mName = (TextView) findViewById(R.id.user_profile_name);
-        mAge = (TextView) findViewById(R.id.user_profile_age);
+        mAge = (TextView) findViewById(R.id.user_profile_age_);
 
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mBluetoothIcon = (ImageView) findViewById(R.id.small_bluetooth_icon);
@@ -96,7 +96,6 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
         setIcons();
         mTabLayout.setOnTabSelectedListener(this);
 
-
         getInfoUser();
     }
 
@@ -113,12 +112,10 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-    }
+    public void onTabUnselected(TabLayout.Tab tab) {}
 
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-    }
+    public void onTabReselected(TabLayout.Tab tab) {}
 
     private void setIcons() {
         mTabLayout.getTabAt(0).setIcon(mTabIcons[0]);
@@ -131,9 +128,11 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     }
 
     private void getInfoUser(){
-        Paciente patient = InfoHandler.getPatientInfo(getApplicationContext());
-        mName.setText(patient.getName() + " " + patient.getFirstLastName() + " " + patient.getSecondLastName());
-        mAge.setText(patient.getAge());
+        Paciente patient = new InfoHandler(getApplicationContext()).getPatientInfo();
+        if(patient!=null) {
+            mName.setText(patient.getName() + " " + patient.getFirstLastName() + " " + patient.getSecondLastName());
+            mAge.setText(patient.getAge() + " años");
+        }
     }
 
 }

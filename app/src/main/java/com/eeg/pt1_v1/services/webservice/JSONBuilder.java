@@ -65,4 +65,15 @@ public class JSONBuilder {
     public static Object getObjectFromJson(String json, Class clase){
         return new Gson().fromJson(json, clase);
     }
+
+    public static String getJsonFromJson(String json, String KEY ){
+        JSONObject object = null;
+        try {
+            object = new JSONObject(json);
+            return object.getString(KEY);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

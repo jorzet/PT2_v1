@@ -154,8 +154,6 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
 
         protected void onPostExecute(String response) {
 
-
-
             if(response==null || response.equals(""))
                 mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
             else if(response.equals(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED))
@@ -172,12 +170,15 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
                 }
             }
             else if(JSONBuilder.validateJsonStructure(response)) {
-                InfoHandler.savePatient(response, getContext());
-                goHomeActivity();
+                Log.i("MyTAG: ", response);
+                new InfoHandler(getContext()).savePatient(response);
+                //goHomeActivity();
             }
 
             mProgressBar.setVisibility(View.GONE);
             mLoginContent.setVisibility(View.VISIBLE);
         }
+
+
     }
 }

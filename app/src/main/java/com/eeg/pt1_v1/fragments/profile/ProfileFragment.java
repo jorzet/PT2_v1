@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Paciente;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
+import com.eeg.pt1_v1.services.database.InfoHandler;
 
 /**
  * Created by Jorge Zepeda Tinoco on 09/07/17.
@@ -17,8 +20,13 @@ import com.eeg.pt1_v1.fragments.content.BaseFragment;
 public class ProfileFragment extends BaseFragment {
 
     private TextView mSpetialist;
-    private TextView mIll;
+    private TextView mIllness;
+    private TextView mGender;
+    private TextView mLastStudy;
+    private TextView mTotalStudies;
     private TextView mAboutUser;
+    private ProgressBar mProgressBar;
+    private View mData;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,13 +37,34 @@ public class ProfileFragment extends BaseFragment {
 
         if(container == null)
             return null;
+        View rootView = inflater.inflate(R.layout.profile_fragment, container, false);
+        mSpetialist = (TextView) rootView.findViewById(R.id.especialista_paciente);
+        mIllness = (TextView) rootView.findViewById(R.id.enfermedad_paciente);
+        mGender = (TextView) rootView.findViewById(R.id.genero_paciente);
+        mLastStudy = (TextView) rootView.findViewById(R.id.last_study_patient);
+        mTotalStudies = (TextView) rootView.findViewById(R.id.total_studies_patient);
+        mAboutUser = (TextView) rootView.findViewById(R.id.about_patient);
+        //mProgressBar = (ProgressBar) rootView.findViewById(R.id.profile_progress);
+        //mData = (View) rootView.findViewById(R.id.scroll_profile_data);
 
 
-        return inflater.inflate(R.layout.profile_fragment, container, false);
+        getInfoUser();
+        return rootView;
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
     }
+
+    private void getInfoUser(){
+        Paciente patient = new InfoHandler(getContext()).getPatientInfo();
+        mSpetialist.setText("ID " + patient.getEspecialista().getId());
+        mIllness.setText(patient.getPadecimiento());
+        mGender.setText(patient.getGender());
+        mTotalStudies.setText("10");
+        mLastStudy.setText("13/12/17");
+        mAboutUser.setText("padecimiento epilepsia");
+    }
+
 }
