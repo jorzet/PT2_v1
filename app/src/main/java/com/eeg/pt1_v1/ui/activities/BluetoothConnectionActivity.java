@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 /**
  * Created by Jorge Zepeda Tinoco on 09/07/17.
- * Edited by Jorge Zepeda Tinoco on 26/07/17
  */
 
 public class BluetoothConnectionActivity extends BaseActivityLifecycle {

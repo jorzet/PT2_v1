@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.eeg.pt1_v1.R;
 
 /**
- * Created by Jorge on 7/2/2017.
+ * Created by Jorge Zepeda Tinoco on 7/2/2017.
  */
 
 public class RestartPasswordFragment extends Fragment{

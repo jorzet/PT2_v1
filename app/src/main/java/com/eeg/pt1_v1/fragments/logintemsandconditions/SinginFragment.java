@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Paciente;
 import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.services.database.InfoHandler;
 import com.eeg.pt1_v1.services.webservice.HttpRequest;
@@ -28,7 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Jorge on 7/2/2017.
+ * Created by Jorge Zepeda Tinoco on 7/2/2017.
  */
 
 public class SinginFragment extends Fragment implements View.OnClickListener{
@@ -154,10 +155,16 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
 
         protected void onPostExecute(String response) {
 
-            if(response==null || response.equals(""))
+            if(response==null || response.equals("")) {
                 mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
-            else if(response.equals(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED))
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(response.equals(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED)) {
                 mErrorLogin.setText(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED);
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
             else if(response.contains("Error") && response.contains("Message")) {
                 try {
                     JSONObject json = new JSONObject(response);
@@ -168,17 +175,58 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
             }
-            else if(JSONBuilder.validateJsonStructure(response)) {
+            else if(JSONBuilder.checkJsonStructure(response)) {
                 Log.i("MyTAG: ", response);
-                new InfoHandler(getContext()).savePatient(response);
-                //goHomeActivity();
+                new InfoHandler(getContext()).savePatientAndToken(response);
+                int idPatient = JSONBuilder.getIntFromJson(response, Palabras.ID_USER);
+                new GetPatientSchedules().execute(idPatient);
+
             }
 
-            mProgressBar.setVisibility(View.GONE);
-            mLoginContent.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+    private class GetPatientSchedules extends AsyncTask<Integer, Long, String> {
+
+        protected String doInBackground(Integer... params) {
+            int idPatient = params[0];
+            Paciente paciente = new InfoHandler(getContext()).getPatientInfo();
+            String res = new MetadataInfo().requestGetPatientSchedules(paciente.getId());
+            return res;
         }
 
+        protected void onPostExecute(String response) {
+            if(response==null || response.equals("")) {
+                mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(response.equals(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED)) {
+                mErrorLogin.setText(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED);
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(response.contains("Error") && response.contains("Message")) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int codeError = json.getInt("Error");
+                    String message = json.getString("Message");
 
+                    mErrorLogin.setText(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(JSONBuilder.checkJsonStructure(response)) {
+                new InfoHandler(getContext()).savePatientSchedules(response);
+                goHomeActivity();
+            }
+        }
     }
 }

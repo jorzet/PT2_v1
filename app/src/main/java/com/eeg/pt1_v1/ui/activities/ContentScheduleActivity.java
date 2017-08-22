@@ -21,7 +21,7 @@ import static com.eeg.pt1_v1.fragments.schedule.SchedulesFragment.DATE_COLOR;
 import static com.eeg.pt1_v1.fragments.schedule.SchedulesFragment.DATE_TEXT;
 
 /**
- * Created by jorgezeped on 24/07/17.
+ * Created by Jorge Zepeda Tinoco on 24/07/17.
  */
 
 public class ContentScheduleActivity extends BaseActivityLifecycle{

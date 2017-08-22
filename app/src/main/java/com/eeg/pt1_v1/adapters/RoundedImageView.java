@@ -1,7 +1,7 @@
 package com.eeg.pt1_v1.adapters;
 
 /**
- * Created by jorge on 28/01/2017.
+ * Created by Jorge Zepeda Tinoco on 28/01/2017.
  */
 
 import android.content.Context;

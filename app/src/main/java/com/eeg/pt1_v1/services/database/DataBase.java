@@ -134,6 +134,11 @@ public class DataBase extends SQLiteOpenHelper{
         editor.apply();
     }
 
+    public void storeJSONPatientSchedules(String json){
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(TABLE_SCHEDULE, json);
+        editor.apply();
+    }
 
     public Paciente getPatient(){
         Log.i("MyTAG: ","getPatient");
@@ -170,6 +175,11 @@ public class DataBase extends SQLiteOpenHelper{
     public String getJsonPatient(){
         SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
         return prefs.getString(TABLE_PATIENT, null);
+    }
+
+    public String getJsonPatientSchedules(){
+        SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(TABLE_SCHEDULE, null);
     }
 
 }

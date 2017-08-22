@@ -6,7 +6,7 @@
 package com.eeg.pt1_v1.entities;
 /**
  *
- * @author ing_ragde
+ * @author Jorge Zepeda Tinoco
  */
 public class ResultadosCanal {
     private int idResultadosCanal;

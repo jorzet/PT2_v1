@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.eeg.pt1_v1.R;
 
 /**
- * Created by ing_ragde on 08/07/17.
+ * Created by Jorge Zepeda Tinoco on 08/07/17.
  */
 
 public class SingupFragment extends Fragment {

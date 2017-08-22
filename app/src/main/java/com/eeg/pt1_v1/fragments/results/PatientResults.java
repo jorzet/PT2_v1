@@ -9,7 +9,7 @@ import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 
 /**
- * Created by ing_ragde on 13/07/17.
+ * Created by Jorge Zepeda Tinoco on 13/07/17.
  */
 
 public class PatientResults extends BaseFragment{

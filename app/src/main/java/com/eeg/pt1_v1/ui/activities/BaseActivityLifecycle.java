@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 
 public class BaseActivityLifecycle extends AppCompatActivity {
 
-
     @Override
     protected void onStop() {
         super.onStop();

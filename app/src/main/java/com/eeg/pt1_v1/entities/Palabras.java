@@ -1,7 +1,7 @@
 package com.eeg.pt1_v1.entities;
 
 /**
- * Created by ing_ragde on 13/08/17.
+ * Created by Jorge Zepeda Tinoco on 13/08/17.
  */
 
 public class Palabras {
@@ -41,5 +41,6 @@ public class Palabras {
     public static final String ERROR_FROM_NETWORK_NOT_CONNECTED = "Error, Conexión a internet no disponible";
 
     public static final String USER = "User";
+    public static final String ID_USER = "idUsuario";
     public static final String TOKEN = "Token";
 }

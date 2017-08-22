@@ -15,13 +15,15 @@ import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.adapters.ListViewAdapter;
+import com.eeg.pt1_v1.entities.Cita;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
+import com.eeg.pt1_v1.services.database.InfoHandler;
 import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
 
 import java.util.ArrayList;
 
 /**
- * Created by Jorge on 09/07/17.
+ * Created by Jorge Zepeda Tinoco on 09/07/17.
  */
 
 public class SchedulesFragment extends BaseFragment implements AdapterView.OnItemClickListener{
@@ -32,6 +34,7 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
 
     /* for View */
     private ListView listView;
+    private TextView mErrorSchedule;
     private ArrayList<String> stringArrayList;
     private ArrayAdapter<String> adapter;
 
@@ -51,6 +54,7 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
 
 
         listView = (ListView) rootView.findViewById(R.id.list_schedule);
+        mErrorSchedule = (TextView) rootView.findViewById(R.id.schedule_error);
         listView.setOnItemClickListener(this);
 
         setData();
@@ -66,18 +70,20 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
 
     private void setData() {
         stringArrayList = new ArrayList<>();
-        stringArrayList.add("13 Enero");
-        stringArrayList.add("1 Febrero");
-        stringArrayList.add("2 Marzo");
-        stringArrayList.add("5 Abril");
-        stringArrayList.add("30 Mayo");
-        stringArrayList.add("25 Junio");
-        stringArrayList.add("11 Julio");
-        stringArrayList.add("2 Agosto");
-        stringArrayList.add("11 Septiembre");
-        stringArrayList.add("10 Octubre");
-        stringArrayList.add("29 Noviembre");
-        stringArrayList.add("24 Diciembre");
+        String savedSchedules = new InfoHandler(getContext()).getPatientSchedulesJson();
+        if(!savedSchedules.contains("Error")) {
+            ArrayList<Cita> citas = new InfoHandler(getContext()).getPatientSchedules(savedSchedules);
+            if (citas != null) {
+                for (int i = 0; i < citas.size(); i++) {
+                    stringArrayList.add(citas.get(i).getDayAndMonthFormath());
+                }
+            }
+        }
+        else{
+            mErrorSchedule.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+            mErrorSchedule.setText(savedSchedules);
+        }
     }
 
     @Override

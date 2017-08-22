@@ -23,10 +23,12 @@ import com.eeg.pt1_v1.services.database.InfoHandler;
  * Created by Jorge Zepeda Tinoco on 7/1/2017.
  */
 
-public class ContentActivity extends BaseActivityLifecycle implements TabLayout.OnTabSelectedListener{
+public class ContentActivity extends BaseActivityLifecycle implements TabLayout.OnTabSelectedListener, View.OnClickListener{
 
     /* For the View */
     private ImageView mProfilePhoto;
+    private ImageView mLogout;
+    private ImageView mSettings;
     private TextView mName;
     private TextView mAge;
     private ViewPager mViewPager;
@@ -69,6 +71,8 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
 
         getCurrentUser();
         mProfilePhoto = (ImageView) findViewById(R.id.user_profile_photo);
+        mLogout = (ImageView) findViewById(R.id.user_logout);
+        mSettings = (ImageView) findViewById(R.id.user_settings);
         mName = (TextView) findViewById(R.id.user_profile_name);
         mAge = (TextView) findViewById(R.id.user_profile_age_);
 
@@ -88,6 +92,9 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new Pager(getSupportFragmentManager(), mTabLayout.getTabCount());
+
+        mLogout.setOnClickListener(this);
+        mSettings.setOnClickListener(this);
 
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
@@ -123,6 +130,18 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
         mTabLayout.getTabAt(2).setIcon(mTabIcons[2]);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.user_logout:
+                doLogout();
+                break;
+            case R.id.user_settings:
+                goSettings();
+                break;
+        }
+    }
+
     public void getCurrentUser(){
 
     }
@@ -133,6 +152,25 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
             mName.setText(patient.getName() + " " + patient.getFirstLastName() + " " + patient.getSecondLastName());
             mAge.setText(patient.getAge() + " años");
         }
+    }
+
+    private void doLogout() {
+        removeSessionData();
+        goLogInActivity();
+    }
+
+    private void goSettings() {
+
+    }
+
+    private void goLogInActivity(){
+        Intent intent = new Intent(ContentActivity.this, LoginActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    private void removeSessionData(){
+        new InfoHandler(getApplicationContext()).removePatientAndToken();
     }
 
 }

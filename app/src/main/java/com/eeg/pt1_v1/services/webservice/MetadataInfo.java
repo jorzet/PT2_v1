@@ -11,8 +11,8 @@ import com.eeg.pt1_v1.entities.Usuario;
 
 public class MetadataInfo {
 
-    //public static final String URL = "http://148.204.86.36:8084/WSEEG/terminalproject/electroencephalography";
-    public static final String URL = "http://192.168.1.74:8084/WSEEG/terminalproject/electroencephalography";
+    public static final String URL = "http://148.204.86.36:8084/WSEEG/terminalproject/electroencephalography";
+    //public static final String URL = "http://192.168.1.74:8084/WSEEG/terminalproject/electroencephalography";
 
     private static final String SING_IN = "/singin/";
     private static final String SING_UP_PATIENT = "/singuppatient/";
@@ -65,6 +65,7 @@ public class MetadataInfo {
     }
 
     public String requestGetPatientSchedules(int idPatient){
+        String url = MetadataInfo.URL + MetadataInfo.GET_PATIENT_SCHEDULES + idPatient;
         return HttpRequest.sendGetRequest(MetadataInfo.URL + MetadataInfo.GET_PATIENT_SCHEDULES + idPatient);
     }
 

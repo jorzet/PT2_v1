@@ -3,13 +3,15 @@ package com.eeg.pt1_v1.services.webservice;
 import com.eeg.pt1_v1.entities.Paciente;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
- * Created by ing_ragde on 13/08/17.
+ * Created by Jorge Zepeda Tinoco on 13/08/17.
  */
 
 public class JSONBuilder {
@@ -19,7 +21,7 @@ public class JSONBuilder {
     private static final char CLOSE_JSON = '}';
     private static final char DOUBLE_QUOTES = '"';
 
-    public static boolean validateJsonStructure(String json){
+    public static boolean checkJsonStructure(String json){
         return true;
         /*Stack pila = new Stack();
         // check if the general structure corresponds to a json object
@@ -75,5 +77,31 @@ public class JSONBuilder {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static int getIntFromJson(String json, String KEY ){
+        JSONObject object = null;
+        try {
+            object = new JSONObject(json);
+            return object.getInt(KEY);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static ArrayList<Object> getArrayListFromJsonArray(String json){
+        ArrayList<Object> objects = new ArrayList<>();
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(json);
+            for (int i=0;i<jsonArray.length();i++){
+                objects.add(JSONBuilder.getObjectFromJson(jsonArray.getJSONObject(i).toString(), Object.class));
+            }
+            return objects;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

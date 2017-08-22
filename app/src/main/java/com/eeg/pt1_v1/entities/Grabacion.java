@@ -1,6 +1,6 @@
 package com.eeg.pt1_v1.entities;
 /**
- * @author Jorge
+ * @author Jorge Zepeda Tinoco
  * @version 1.0
  * @created 02-Jul-2017 1:24:04 PM
  */
@@ -10,10 +10,7 @@ public class Grabacion {
     private Paciente paciente;
     private String nombreArchivo;
 
-    public Grabacion(){
-
-    }
-
+    public Grabacion(){}
 
     public int getIdGrabacion(){
         return this.idGrabacion;

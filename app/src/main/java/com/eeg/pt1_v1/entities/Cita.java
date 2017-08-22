@@ -2,7 +2,7 @@ package com.eeg.pt1_v1.entities;
 import java.util.Date;
 
 /**
- * @author Jorge
+ * @author Jorge Zepeda Tinoco
  * @version 1.0
  * @created 02-Jul-2017 1:24:04 PM
  */
@@ -14,9 +14,7 @@ public class Cita {
     private String duracion;
     private String observaciones;
 
-    public Cita(){
-
-    }
+    public Cita(){}
 
     public int getFolioCita(){
         return this.folioCita;
@@ -81,6 +79,12 @@ public class Cita {
      */
     public void setObservaciones(String observaciones){
         this.observaciones = observaciones;
+    }
+
+    public String getDayAndMonthFormath(){
+        String[] params = this.fecha.split("/");
+        String[] months = {"Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        return params[0] + " " + months[Integer.parseInt(params[1])-1];
     }
 
 }//end Cita

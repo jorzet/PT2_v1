@@ -21,7 +21,9 @@ import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
 import java.util.List;
 
 /**
- * Created by ing_ragde on 13/07/17.
+ * Created by Jorge Zepeda Tinoco
+ * @version 1.0
+ * @created 13-Jul-2017
  */
 
 public class ListViewAdapter extends ArrayAdapter<String> {

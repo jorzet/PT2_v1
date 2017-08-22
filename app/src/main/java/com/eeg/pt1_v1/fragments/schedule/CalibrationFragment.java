@@ -11,8 +11,8 @@ import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
 
 /**
- * Created by ing_ragde on 26/07/17.
- */
+ * Created by Jorge Zepeda Tinoco on 26/07/17.
+ * */
 
 public class CalibrationFragment extends BaseFragment {
     private Button mStartRecording;
