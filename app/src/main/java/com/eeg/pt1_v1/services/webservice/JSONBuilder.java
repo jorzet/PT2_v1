@@ -90,13 +90,13 @@ public class JSONBuilder {
         return -1;
     }
 
-    public static ArrayList<Object> getArrayListFromJsonArray(String json){
+    public static ArrayList<Object> getArrayListFromJsonArray(String json, Class clase){
         ArrayList<Object> objects = new ArrayList<>();
         JSONArray jsonArray = null;
         try {
             jsonArray = new JSONArray(json);
             for (int i=0;i<jsonArray.length();i++){
-                objects.add(JSONBuilder.getObjectFromJson(jsonArray.getJSONObject(i).toString(), Object.class));
+                objects.add(JSONBuilder.getObjectFromJson(jsonArray.getJSONObject(i).toString(), clase));
             }
             return objects;
         } catch (JSONException e) {

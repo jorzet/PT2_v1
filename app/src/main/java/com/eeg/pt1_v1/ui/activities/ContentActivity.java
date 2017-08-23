@@ -160,7 +160,8 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     }
 
     private void goSettings() {
-
+        Intent intent = new Intent(ContentActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void goLogInActivity(){

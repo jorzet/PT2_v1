@@ -18,6 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/arrow_back"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_arrow_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </ImageView>
+            <ImageView
                 android:id="@+id/rounded_date_schedule_container"
                 android:transitionName="@string/date_image_container_schedule"
                 android:scaleType="centerCrop"

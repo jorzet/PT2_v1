@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
 
@@ -16,6 +18,7 @@ import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
 
 public class CalibrationFragment extends BaseFragment {
     private Button mStartRecording;
+    private TextView mSuggestion;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,9 +30,15 @@ public class CalibrationFragment extends BaseFragment {
 
         if(container == null)
             return null;
+
         View rootView = inflater.inflate(R.layout.calibration_fragment, container, false);
+
         mStartRecording = (Button) rootView.findViewById(R.id.start_recording);
+        mSuggestion = (TextView) rootView.findViewById(R.id.spetialist_suggestion);
+
         mStartRecording.setOnClickListener(mStartRecordingListener);
+        showSpetialistSuggestion();
+
         return rootView;
     }
 
@@ -43,5 +52,10 @@ public class CalibrationFragment extends BaseFragment {
 
     private void doRecording(){
         getFragmentManager().beginTransaction().replace(R.id.fragment_container_schedule, new RecordingFragment()).commit();
+    }
+
+    private void showSpetialistSuggestion(){
+        String suggestions = getActivity().getIntent().getExtras().getString(Palabras.SPETIALIST_SUGGESTIONS);
+        mSuggestion.setText(suggestions);
     }
 }

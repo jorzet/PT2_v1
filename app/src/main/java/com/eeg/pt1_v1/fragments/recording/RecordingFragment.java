@@ -135,7 +135,7 @@ public class RecordingFragment extends BaseFragment{
                 mTime = hmsTimeFormatter(millisUntilFinished);
                 mChronometerRecording.setText(mTime);
                 mProgressBarCircle.setProgress((int) ((millisUntilFinished*100)/totalTimeCountInMilliSeconds));
-                mPorcentageProgress.setText((int) ((millisUntilFinished*100)/totalTimeCountInMilliSeconds)+"%");
+                mPorcentageProgress.setText((int) (100-((millisUntilFinished*100)/totalTimeCountInMilliSeconds))+"%");
 
                 if(isNotificationAble)
                     addNotification();

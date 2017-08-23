@@ -84,7 +84,7 @@ public class Cita {
     public String getDayAndMonthFormath(){
         String[] params = this.fecha.split("/");
         String[] months = {"Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-        return params[0] + " " + months[Integer.parseInt(params[1])-1];
+        return params[1] + " " + months[Integer.parseInt(params[0])-1];
     }
 
 }//end Cita

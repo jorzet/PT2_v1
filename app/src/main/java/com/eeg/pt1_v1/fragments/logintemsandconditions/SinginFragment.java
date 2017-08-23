@@ -12,16 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.entities.Paciente;
 import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.services.database.InfoHandler;
-import com.eeg.pt1_v1.services.webservice.HttpRequest;
 import com.eeg.pt1_v1.services.webservice.JSONBuilder;
 import com.eeg.pt1_v1.services.webservice.MetadataInfo;
-import com.eeg.pt1_v1.ui.activities.BluetoothConnectionActivity;
 import com.eeg.pt1_v1.ui.activities.ContentActivity;
 import com.eeg.pt1_v1.ui.activities.LoginActivity;
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.adapters.ListViewAdapter;
 import com.eeg.pt1_v1.entities.Cita;
+import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.services.database.InfoHandler;
 import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
@@ -37,6 +38,8 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
     private TextView mErrorSchedule;
     private ArrayList<String> stringArrayList;
     private ArrayAdapter<String> adapter;
+
+    private ArrayList<Cita> citas;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,7 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
         stringArrayList = new ArrayList<>();
         String savedSchedules = new InfoHandler(getContext()).getPatientSchedulesJson();
         if(!savedSchedules.contains("Error")) {
-            ArrayList<Cita> citas = new InfoHandler(getContext()).getPatientSchedules(savedSchedules);
+            citas = new InfoHandler(getContext()).getPatientSchedules(savedSchedules, Cita.class);
             if (citas != null) {
                 for (int i = 0; i < citas.size(); i++) {
                     stringArrayList.add(citas.get(i).getDayAndMonthFormath());
@@ -90,8 +93,9 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), ContentScheduleActivity.class);
 
-        intent.putExtra(DATE_COLOR,(String)listView.getAdapter().getItem(position));
-        intent.putExtra(DATE_TEXT,stringArrayList.get(position));
+        intent.putExtra(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
+        intent.putExtra(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
+        intent.putExtra(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
 
         ImageView ivDate = (ImageView) view.findViewById(R.id.date_schedule);
         TextView tvDate = (TextView) view.findViewById(R.id.date);

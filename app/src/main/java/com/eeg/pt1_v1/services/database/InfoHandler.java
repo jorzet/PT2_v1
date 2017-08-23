@@ -49,9 +49,9 @@ public class InfoHandler {
         return db.getJsonPatientSchedules();
     }
 
-    public ArrayList<Cita> getPatientSchedules(String schedules){
+    public ArrayList<Cita> getPatientSchedules(String schedules, Class clase){
         DataBase db = new DataBase(mContext);
-        ArrayList<Object> objects = JSONBuilder.getArrayListFromJsonArray(schedules);
+        ArrayList<Object> objects = JSONBuilder.getArrayListFromJsonArray(schedules, clase);
         ArrayList<Cita> citas = new ArrayList<>();
         if (objects != null) {
             for (int i = 0; i < objects.size(); i++)

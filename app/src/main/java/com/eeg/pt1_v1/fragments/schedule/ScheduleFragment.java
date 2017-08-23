@@ -1,6 +1,7 @@
 package com.eeg.pt1_v1.fragments.schedule;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.eeg.pt1_v1.fragments.content.BaseFragment;
 
 public class ScheduleFragment extends BaseFragment{
     private Button mTestButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +25,6 @@ public class ScheduleFragment extends BaseFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         if (container == null)
             return null;
 
@@ -32,7 +33,6 @@ public class ScheduleFragment extends BaseFragment{
         mTestButton = (Button) rootView.findViewById(R.id.test_button);
         mTestButton.setOnClickListener(mTestListener);
         return rootView;
-
     }
 
     private Button.OnClickListener mTestListener

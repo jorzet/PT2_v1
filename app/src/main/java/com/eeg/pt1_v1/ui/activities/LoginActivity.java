@@ -2,7 +2,6 @@ package com.eeg.pt1_v1.ui.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.fragments.logintemsandconditions.SinginFragment;

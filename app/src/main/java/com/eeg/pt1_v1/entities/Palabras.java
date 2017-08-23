@@ -40,6 +40,7 @@ public class Palabras {
     public static final String ERROR_FROM_WEB_WERVICE = "Error al obtener información del servidor, vuelve a intentarlo más tarde";
     public static final String ERROR_FROM_NETWORK_NOT_CONNECTED = "Error, Conexión a internet no disponible";
 
+    public static final String SPETIALIST_SUGGESTIONS = "spetialist_suggestion";
     public static final String USER = "User";
     public static final String ID_USER = "idUsuario";
     public static final String TOKEN = "Token";

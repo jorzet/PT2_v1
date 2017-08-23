@@ -2,38 +2,89 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/recomendation"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/text_spetialist_suggestion"
-        android:layout_below="@+id/toolbar_container_schedule"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="36dp" />
-    <TextView
-        android:id="@+id/spetialist_recomendation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Por favor coloca bien lo electrodos para que no haya inconsistencias en el estudio, procura ser cuidadoso"
-        android:layout_below="@+id/recomendation"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-    <ImageView
-        android:id="@+id/image_10_20_system"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_10_20_system"
-        android:layout_below="@+id/spetialist_recomendation"
-        android:layout_centerHorizontal="true"/>
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/suggestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_spetialist_suggestion"
+                android:textStyle="bold"
+                android:layout_below="@+id/toolbar_container_schedule"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="36dp" />
 
-    <Button
-        android:id="@+id/start_recording"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/image_10_20_system"
-        android:text="Comenzar grabación"
-        android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/spetialist_suggestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/suggestion"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp" />
+
+            <ImageView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/separator"
+                android:layout_below="@+id/spetialist_suggestion"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#CDCDCD"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp" />
+
+            <TextView
+                android:id="@+id/calibration_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/separator"
+                android:text="@string/calibration_persentage"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/separator"
+                android:layout_toEndOf="@+id/calibration_percentage"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="0 %"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/image_10_20_system"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_10_20_system"
+                android:layout_below="@+id/percentage"
+                android:layout_centerHorizontal="true"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/start_recording"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/image_10_20_system"
+                android:text="@string/start_recording"
+                android:padding="12dp"
+                android:backgroundTint="@color/colorGreenButton"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
