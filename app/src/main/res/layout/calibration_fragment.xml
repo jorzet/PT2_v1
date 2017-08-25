@@ -65,7 +65,7 @@
                 android:text="0 %"
                 android:textStyle="bold"/>
 
-            <ImageView
+            <com.eeg.pt1_v1.adapters.CalibrationCanvas
                 android:id="@+id/image_10_20_system"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

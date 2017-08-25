@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.fragments.logintemsandconditions.SinginFragment;
+import com.eeg.pt1_v1.fragments.schedule.CalibrationFragment;
 
 /**
  * Created by Jorge Zepeda Tinoco on 7/1/2017.
@@ -21,8 +22,11 @@ public class LoginActivity extends BaseActivityLifecycle{
 
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.fragment_container, new SinginFragment());
+            ft.add(R.id.fragment_container, new CalibrationFragment());
             ft.commit();
+            //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            //ft.add(R.id.fragment_container, new SinginFragment());
+            //ft.commit();
         }
     }
 

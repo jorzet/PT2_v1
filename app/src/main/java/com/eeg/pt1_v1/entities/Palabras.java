@@ -44,4 +44,25 @@ public class Palabras {
     public static final String USER = "User";
     public static final String ID_USER = "idUsuario";
     public static final String TOKEN = "Token";
+
+    public static final String FP1 = "fp1";
+    public static final String FP2 = "fp2";
+    public static final String G = "g";
+    public static final String F3 = "f3";
+    public static final String F4 = "f4";
+    public static final String F7 = "f7";
+    public static final String F8 = "f8";
+    public static final String C3 = "c3";
+    public static final String C4 = "c4";
+    public static final String T3 = "t3";
+    public static final String T4 = "t4";
+    public static final String A1 = "a1";
+    public static final String A2 = "a2";
+    public static final String P3 = "p3";
+    public static final String P4 = "p4";
+    public static final String T5 = "t5";
+    public static final String T6 = "t6";
+    public static final String O1 = "o1";
+    public static final String O2 = "o2";
+
 }
