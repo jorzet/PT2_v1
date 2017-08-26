@@ -42,16 +42,6 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
             R.drawable.ic_calendar,
     };
 
-    private int[] mBtteryPorcentage = {
-            R.drawable.ic_battery_20,
-            R.drawable.ic_battery_30,
-            R.drawable.ic_battery_50,
-            R.drawable.ic_battery_60,
-            R.drawable.ic_battery_80,
-            R.drawable.ic_battery_90,
-            R.drawable.ic_battery_100
-    };
-
     /* For the Fragments tag */
     private static final String HOME_TAG = "home_tag";
     private static final String RECORD_TAG = "record_tag";

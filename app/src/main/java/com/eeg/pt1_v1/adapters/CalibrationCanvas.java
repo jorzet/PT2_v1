@@ -20,52 +20,57 @@ import com.eeg.pt1_v1.R;
 
 public class CalibrationCanvas extends android.support.v7.widget.AppCompatImageView{
     public Paint p;
+    private static final int ERROR_FROM_ELECTRODE = -0x01;
+    private static final int ELECTRODE_NOT_ABLE =    0x00;
+    private static final int ELECTRODE_RED =         0x01;
+    private static final int ELECTRODE_ORANGE =      0x02;
+    private static final int ELECTRODE_GREEN =       0x03;
 
-    public static final int FP1_X = 178;
-    public static final int FP1_Y = 89;
-    public static final int G_X =   248;
-    public static final int G_Y =   72;
-    public static final int FP2_X = 310;
-    public static final int FP2_Y = 89;
-    public static final int F7_X =  100;
-    public static final int F7_Y =  170;
-    public static final int F3_X =  171;
-    public static final int F3_Y =  186;
-    public static final int FZ_X =  246;
-    public static final int FZ_Y =  205;
-    public static final int F4_X =  322;
-    public static final int F4_Y =  183;
-    public static final int F8_X =  394;
-    public static final int F8_Y =  168;
-    public static final int A1_X =  -4;
-    public static final int A1_Y =  279;
-    public static final int T3_X =  68;
-    public static final int T3_Y =  276;
-    public static final int C3_X =  159;
-    public static final int C3_Y =  276;
-    public static final int CZ_X =  246;
-    public static final int CZ_Y =  276;
-    public static final int C4_X =  338;
-    public static final int C4_Y =  276;
-    public static final int T4_X =  423;
-    public static final int T4_Y =  276;
-    public static final int A2_X =  500;
-    public static final int A2_Y =  279;
-    public static final int T5_X =  97;
-    public static final int T5_Y =  388;
-    public static final int P3_X =  169;
-    public static final int P3_Y =  365;
-    public static final int PZ_X =  247;
-    public static final int PZ_Y =  348;
-    public static final int P4_X =  324;
-    public static final int P4_Y =  365;
-    public static final int T6_X =  394;
-    public static final int T6_Y =  385;
-    public static final int O1_X =  183;
-    public static final int O1_Y =  467;
-    public static final int O2_X =  313;
-    public static final int O2_Y =  467;
+    private static final int BATERY_NODE_0 =   0x01;
+    private static final int BATERY_NODE_20 =  0x14;
+    private static final int BATERY_NODE_30 =  0x1E;
+    private static final int BATERY_NODE_50 =  0x32;
+    private static final int BATERY_NODE_60 =  0x3C;
+    private static final int BATERY_NODE_80 =  0x50;
+    private static final int BATERY_NODE_90 =  0x5A;
+    private static final int BATERY_NODE_100 = 0x64;
 
+    private String[] chanels = {"FP1", "G", "FP2",
+                                "F7", "F3", "FZ", "F4", "F8",
+                                "A1", "T3", "C3", "CZ", "C4", "T4", "A2",
+                                "T5", "P3", "PZ", "P4", "T6",
+                                "O1", "O2"};
+    //Sumar a cada porcentaje
+
+    public static final double[][] percentageElectrode = {{0.3189047, 0.1522988}, // FP1
+                                            {0.4415020, 0.1257586}, // G
+                                            {0.5541029, 0.1522988}, // FP2
+
+                                            {0.1793488, 0.2933463}, // F7
+                                            {0.3073488, 0.3208463}, // F3
+                                            {0.4395020, 0.3528463}, // FZ
+                                            {0.5784243, 0.3158463}, // F4
+                                            {0.7060243, 0.2903863}, // F8
+
+                                            {-0.005865, 0.4790999}, // A1
+                                            {0.1206650, 0.4758463}, // T3
+                                            {0.2853488, 0.4758463}, // C3
+                                            {0.4415020, 0.4758463}, // CZ
+                                            {0.6034243, 0.4758463}, // C4
+                                            {0.7560378, 0.4758463}, // T4
+                                            {0.8965644, 0.4788463}, // A2
+
+                                            {0.1759000, 0.6698366}, // T5
+                                            {0.3043488, 0.6273366}, // P3
+                                            {0.4415020, 0.5953366}, // PZ
+                                            {0.5794543, 0.6273366}, // P4
+                                            {0.7060243, 0.6643366}, // T6
+
+                                            {0.3295047, 0.8059919}, // O1
+                                            {0.5583429, 0.8058816}};// O2
+
+                           // FP1 G FP2 F7 F3 FZ F4 F8 A1 T3 C3 CZ C4 T4 A2 T5 P3 PZ P4 T6 O1 O2
+    public int[] electrodes = { 0, 2, 2, 3, 3, 1, 3, 2, 3, 3, 3, 3, 1, 3, 3, 3, 3, 2, 3, 3, 3, 3};
 
     public static final int[] circles = {
             R.drawable.ic_red_circule,
@@ -86,33 +91,23 @@ public class CalibrationCanvas extends android.support.v7.widget.AppCompatImageV
         Bitmap greenCircle = BitmapFactory.decodeResource(getResources(), circles[2]);
 
         canvas.drawBitmap(System1020, 0, 0, p);
+        float height =  System1020.getHeight();
+        float width = System1020.getWidth();
 
-        canvas.drawBitmap(redCircle,CalibrationCanvas.FP1_X, CalibrationCanvas.FP1_Y,p); // FP1
-        canvas.drawBitmap(redCircle,CalibrationCanvas.G_X, CalibrationCanvas.G_Y,p); // G
-        canvas.drawBitmap(redCircle, CalibrationCanvas.FP2_X, CalibrationCanvas.FP2_Y, p); // FP2
+        for(int i=0; i<electrodes.length; i++) {
+            if (electrodes[i] == ELECTRODE_RED || electrodes[i] == ERROR_FROM_ELECTRODE) {
+                canvas.drawBitmap(redCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
+            }
+            else if(electrodes[i] == ELECTRODE_ORANGE){
+                canvas.drawBitmap(orangeCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
+            }
+            else if(electrodes[i] == ELECTRODE_GREEN){
+                canvas.drawBitmap(greenCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
+            }
 
-        canvas.drawBitmap(redCircle, CalibrationCanvas.F7_X, CalibrationCanvas.F7_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.F3_X, CalibrationCanvas.F3_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.FZ_X, CalibrationCanvas.FZ_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.F4_X, CalibrationCanvas.F4_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.F8_X, CalibrationCanvas.F8_Y, p);
+        }
 
-        canvas.drawBitmap(redCircle, CalibrationCanvas.A1_X, CalibrationCanvas.A1_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.T3_X, CalibrationCanvas.T3_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.C3_X, CalibrationCanvas.C3_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.CZ_X, CalibrationCanvas.CZ_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.C4_X, CalibrationCanvas.C4_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.T4_X, CalibrationCanvas.T4_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.A2_X, CalibrationCanvas.A2_Y, p);
 
-        canvas.drawBitmap(redCircle, CalibrationCanvas.T5_X, CalibrationCanvas.T5_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.P3_X, CalibrationCanvas.P3_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.PZ_X, CalibrationCanvas.PZ_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.P4_X, CalibrationCanvas.P4_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.T6_X, CalibrationCanvas.T6_Y, p);
-
-        canvas.drawBitmap(redCircle, CalibrationCanvas.O1_X, CalibrationCanvas.O1_Y, p);
-        canvas.drawBitmap(redCircle, CalibrationCanvas.O2_X, CalibrationCanvas.O2_Y, p);
     }
 
     public CalibrationCanvas(Context context, AttributeSet attrs) {

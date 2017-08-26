@@ -24,6 +24,17 @@ public class CalibrationFragment extends BaseFragment {
     private Button mStartRecording;
     private TextView mSuggestion;
     private ImageView mCalibrationCanvas;
+
+    private int[] mBtteryPercentage = {
+            R.drawable.ic_battery_20,
+            R.drawable.ic_battery_30,
+            R.drawable.ic_battery_50,
+            R.drawable.ic_battery_60,
+            R.drawable.ic_battery_80,
+            R.drawable.ic_battery_90,
+            R.drawable.ic_battery_100
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +79,7 @@ public class CalibrationFragment extends BaseFragment {
             return false;
         }
     };
+
     private void doRecording(){
         getFragmentManager().beginTransaction().replace(R.id.fragment_container_schedule, new RecordingFragment()).commit();
     }

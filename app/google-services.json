@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "829703808527",
+    "firebase_url": "https://myeeg-c47ab.firebaseio.com",
+    "project_id": "myeeg-c47ab",
+    "storage_bucket": "myeeg-c47ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829703808527:android:4c0498e2496141cd",
+        "android_client_info": {
+          "package_name": "com.eeg.pt1_v1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829703808527-eh4q89r360da6qobkhjc8ugv4dcs3g55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYd5ZZzphgRZiPgqIOcb94awUqgwAqT9E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
