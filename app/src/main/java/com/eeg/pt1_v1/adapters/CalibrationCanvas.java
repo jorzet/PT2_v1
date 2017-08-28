@@ -70,7 +70,10 @@ public class CalibrationCanvas extends android.support.v7.widget.AppCompatImageV
                                             {0.5583429, 0.8058816}};// O2
 
                            // FP1 G FP2 F7 F3 FZ F4 F8 A1 T3 C3 CZ C4 T4 A2 T5 P3 PZ P4 T6 O1 O2
-    public int[] electrodes = { 0, 2, 2, 3, 3, 1, 3, 2, 3, 3, 3, 3, 1, 3, 3, 3, 3, 2, 3, 3, 3, 3};
+    public int[] electrodes = {0, 2, 2, 3, 3, 1, 3, 2, 3, 3, 3, 3, 1, 3, 3, 3, 3, 2, 3, 3, 3, 3};
+
+    public float width;
+    public float height;
 
     public static final int[] circles = {
             R.drawable.ic_red_circule,
@@ -91,23 +94,17 @@ public class CalibrationCanvas extends android.support.v7.widget.AppCompatImageV
         Bitmap greenCircle = BitmapFactory.decodeResource(getResources(), circles[2]);
 
         canvas.drawBitmap(System1020, 0, 0, p);
-        float height =  System1020.getHeight();
-        float width = System1020.getWidth();
+        this.height =  System1020.getHeight();
+        this.width = System1020.getWidth();
 
         for(int i=0; i<electrodes.length; i++) {
-            if (electrodes[i] == ELECTRODE_RED || electrodes[i] == ERROR_FROM_ELECTRODE) {
+            if (electrodes[i] == ELECTRODE_RED || electrodes[i] == ERROR_FROM_ELECTRODE)
                 canvas.drawBitmap(redCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
-            }
-            else if(electrodes[i] == ELECTRODE_ORANGE){
+            else if(electrodes[i] == ELECTRODE_ORANGE)
                 canvas.drawBitmap(orangeCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
-            }
-            else if(electrodes[i] == ELECTRODE_GREEN){
+            else if(electrodes[i] == ELECTRODE_GREEN)
                 canvas.drawBitmap(greenCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
-            }
-
         }
-
-
     }
 
     public CalibrationCanvas(Context context, AttributeSet attrs) {

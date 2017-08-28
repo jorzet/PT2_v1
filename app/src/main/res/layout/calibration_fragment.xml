@@ -17,7 +17,7 @@
                 android:layout_below="@+id/toolbar_container_schedule"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="36dp" />
+                android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/spetialist_suggestion"
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:textStyle="bold"
-                    android:text="Modulo:       "/>
+                    android:text="Módulo:       "/>
 
                 <TextView
                     android:id="@+id/module_type"
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/module"
                     android:layout_marginStart="30dp"
-                    android:text="Modulo 1 "/>
+                    android:text="Módulo 1 "/>
 
 
                 <TextView

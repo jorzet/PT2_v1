@@ -21,12 +21,12 @@ public class LoginActivity extends BaseActivityLifecycle{
         setContentView(R.layout.container);
 
         if (savedInstanceState == null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.fragment_container, new CalibrationFragment());
-            ft.commit();
             //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            //ft.add(R.id.fragment_container, new SinginFragment());
+            //ft.add(R.id.fragment_container, new CalibrationFragment());
             //ft.commit();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.fragment_container, new SinginFragment());
+            ft.commit();
         }
     }
 
