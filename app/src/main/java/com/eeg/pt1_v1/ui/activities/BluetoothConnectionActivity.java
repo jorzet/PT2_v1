@@ -187,7 +187,7 @@ public class BluetoothConnectionActivity extends BaseActivityLifecycle {
     }
 
     private void goToHome(){
-        Intent intent = new Intent(BluetoothConnectionActivity.this, ContentActivity.class);
+        Intent intent = new Intent(BluetoothConnectionActivity.this, ContentScheduleActivity.class);
         startActivity(intent);
         BluetoothConnectionActivity.this.finish();
     }

@@ -115,8 +115,11 @@ public class CalibrationFragment extends BaseFragment {
         public boolean onTouch(View v, MotionEvent event) {
             if(event.getAction() == MotionEvent.ACTION_DOWN){
                 for(int i=0;i<mCalibrationCanvas.electrodes.length;i++) {
-                    if (event.getX() > (float) (mCalibrationCanvas.percentageElectrode[i][0] * mCalibrationCanvas.width) && event.getX() < (float) (mCalibrationCanvas.percentageElectrode[i][0] * mCalibrationCanvas.width + 50)
-                        && event.getY() > (float) (mCalibrationCanvas.percentageElectrode[i][1] * mCalibrationCanvas.width) && event.getY() < (float) (mCalibrationCanvas.percentageElectrode[i][1] * mCalibrationCanvas.width + 50)){
+                    if (event.getX() > (float) (mCalibrationCanvas.percentageElectrode[i][0] * mCalibrationCanvas.width) &&
+                            event.getX() < (float) (mCalibrationCanvas.percentageElectrode[i][0] * mCalibrationCanvas.width + 50) &&
+                            event.getY() > (float) (mCalibrationCanvas.percentageElectrode[i][1] * mCalibrationCanvas.width) &&
+                            event.getY() < (float) (mCalibrationCanvas.percentageElectrode[i][1] * mCalibrationCanvas.width + 50)){
+
                         mModuleType.setText("Módulo "+electrodesModule[i]);
                         mElectrodeType.setText(chanels[i]);
                         mCalibration.setText(electrodeColocation[i]);
