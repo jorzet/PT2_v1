@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,11 @@ import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
+import com.eeg.pt1_v1.fragments.profile.ProfileFragment;
+import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
+import com.eeg.pt1_v1.fragments.schedule.SchedulesFragment;
 import com.eeg.pt1_v1.ui.activities.ContentActivity;
+import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -93,7 +98,15 @@ public class RecordingFragment extends BaseFragment{
                         .setContentTitle("Tiempo restante: "+mTime)
                         .setContentText("Total de tiempo: ");
 
-        Intent notificationIntent = new Intent(getContext(), getActivity().getClass());
+        Intent notificationIntent;
+        Fragment homeFragment = getFragmentManager().findFragmentById(R.id.fragment_container_schedule);
+        if(homeFragment instanceof ProfileFragment ||
+                homeFragment instanceof ScheduleFragment ||
+                homeFragment instanceof SchedulesFragment)
+            notificationIntent = new Intent(ContentActivity.mContext, ContentActivity.class);
+        else
+            notificationIntent = new Intent(getContext(), ContentActivity.class);
+
         PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);

@@ -1,6 +1,7 @@
 package com.eeg.pt1_v1.ui.activities;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     /* Variable for SharedPreferences */
     public boolean isMedic = true;
 
+    public static Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,8 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mContext = getApplicationContext();
 
         getCurrentUser();
         mProfilePhoto = (ImageView) findViewById(R.id.user_profile_photo);

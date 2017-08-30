@@ -33,7 +33,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
 
     /* For the View */
     private Button mLogin;
-    private TextView mSingUp;
+    private Button mSingUp;
     private TextView mRestartPassword;
     private EditText mEmail;
     private EditText mPassword;
@@ -61,7 +61,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
         View rootView = inflater.inflate(R.layout.signin_fragment,container,false);
 
         mLogin = (Button) rootView.findViewById(R.id.singin_button);
-        mSingUp = (TextView) rootView.findViewById(R.id.link_to_signup);
+        mSingUp = (Button) rootView.findViewById(R.id.link_to_signup);
         mRestartPassword = (TextView) rootView.findViewById(R.id.link_to_forgot);
         mEmail = (EditText) rootView.findViewById(R.id.email_user_singin);
         mPassword = (EditText) rootView.findViewById(R.id.password_user_singin);

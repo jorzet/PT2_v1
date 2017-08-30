@@ -2,6 +2,7 @@ package com.eeg.pt1_v1.ui.activities;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
     private TextView mDate;
     private Toolbar mToolbar;
 
+    public static Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,7 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
         String[] date = extras.getString(SchedulesFragment.DATE_TEXT).split(" ");
         mDate.setText(date[1]);
 
+        mContext = getApplicationContext();
         ColorGenerator generator = ColorGenerator.MATERIAL;
         int color = generator.getColor(extras.getString(SchedulesFragment.DATE_COLOR));
         TextDrawable drawable = TextDrawable.builder().buildRound(date[0], color);

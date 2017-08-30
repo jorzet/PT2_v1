@@ -97,6 +97,8 @@ public class CalibrationCanvas extends android.support.v7.widget.AppCompatImageV
         this.height =  System1020.getHeight();
         this.width = System1020.getWidth();
 
+
+
         for(int i=0; i<electrodes.length; i++) {
             if (electrodes[i] == ELECTRODE_RED || electrodes[i] == ERROR_FROM_ELECTRODE)
                 canvas.drawBitmap(redCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
@@ -104,6 +106,8 @@ public class CalibrationCanvas extends android.support.v7.widget.AppCompatImageV
                 canvas.drawBitmap(orangeCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
             else if(electrodes[i] == ELECTRODE_GREEN)
                 canvas.drawBitmap(greenCircle, (float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height, p);
+
+            canvas.drawText(chanels[i],(float)percentageElectrode[i][0]*width, (float)percentageElectrode[i][1]*height,p);
         }
     }
 

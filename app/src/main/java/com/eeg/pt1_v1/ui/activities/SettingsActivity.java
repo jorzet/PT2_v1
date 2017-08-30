@@ -2,6 +2,7 @@ package com.eeg.pt1_v1.ui.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -45,6 +47,7 @@ public class SettingsActivity extends BaseActivityLifecycle{
     private EditText mUserPassword;
     private RoundedImageView mProfileFoto;
     private ImageView mChangeProfilePhoto;
+    private ImageView mBackButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,11 +63,20 @@ public class SettingsActivity extends BaseActivityLifecycle{
         mUserPassword = (EditText) findViewById(R.id.edit_user_password);
         mProfileFoto = (RoundedImageView) findViewById(R.id.user_profile_photo);
         mChangeProfilePhoto = (ImageView) findViewById(R.id.change_user_profile_photo);
+        mBackButton = (ImageView) findViewById(R.id.arrow_back);
 
         loadUserData();
 
         mChangeProfilePhoto.setOnClickListener(mChangePhoto);
+        mBackButton.setOnClickListener(backAction);
     }
+
+    private View.OnClickListener backAction = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onBackPressed();
+        }
+    };
 
     private void loadUserData(){
         Paciente patient = new InfoHandler(getApplication()).getPatientInfo();
@@ -128,6 +140,11 @@ public class SettingsActivity extends BaseActivityLifecycle{
             }
         });
         builder.show();
+    }
+
+    @Override
+    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+
     }
 
     private void galleryIntent() {

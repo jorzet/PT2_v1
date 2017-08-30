@@ -1,14 +1,18 @@
 package com.eeg.pt1_v1.services.webservice;
 
-import com.eeg.pt1_v1.entities.Paciente;
+import android.content.Intent;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.List;
 
 /**
  * Created by Jorge Zepeda Tinoco on 13/08/17.
@@ -101,7 +105,19 @@ public class JSONBuilder {
             return objects;
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
+    }
+
+    public static List<Intent> getListFromJson(String json, String KEY){
+        try {
+            JSONObject object = new JSONObject(json);
+            JsonElement element = (JsonElement) object.get(KEY);
+            Type listType = new TypeToken<List<Integer>>() {}.getType();
+            return new Gson().fromJson(element , listType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
