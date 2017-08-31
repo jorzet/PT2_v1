@@ -36,12 +36,18 @@
 
     <!--Sign Up-->
     <string name="name_user">Nombre</string>
-    <string name="lastname_user">Apellido(s)</string>
+    <string name="fistlastname_user">Apellido paterno</string>
+    <string name="secondlastname_user">Apellido materno</string>
     <string name="email_user">Email</string>
     <string name="password_user">Contraseña</string>
     <string name="password_confirmation_user">Confirmación</string>
     <string name="singup">Registrarse</string>
+    <string name="age_user">Edad</string>
+    <string name="illness_user">Enfermedad</string>
     <string name="are_you_teacher">¿Usted es Medico o Especialista?</string>
+    <string name="gender_user_singup">Genero</string>
+    <string name="are_you_female">Femenino</string>
+    <string name="are_you_male">Masculino</string>
 
 
 
@@ -63,5 +69,7 @@
     <string name="text_test_suggestion">Antes de comenzar un estudio se debe relizar una prueba del sistema. Asegurate de que todos los dispositivos esten encendidos.</string>
     <string name="text_do_test">Da clic en test para iniciar la prueba.</string>
     <string name="calibration_persentage">Porcentaje de calibración:</string>
+
+
 
 </resources>

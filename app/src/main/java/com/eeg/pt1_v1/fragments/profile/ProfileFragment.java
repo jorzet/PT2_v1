@@ -59,7 +59,10 @@ public class ProfileFragment extends BaseFragment {
 
     private void getInfoUser(){
         Paciente patient = new InfoHandler(getContext()).getPatientInfo();
-        mSpetialist.setText("ID " + patient.getEspecialista().getId());
+        if(patient.getEspecialista()!=null)
+            mSpetialist.setText("ID " + patient.getEspecialista().getId());
+        else
+            mSpetialist.setText("No asignado");
         mIllness.setText(patient.getPadecimiento());
         mGender.setText(patient.getGender());
         mTotalStudies.setText("10");

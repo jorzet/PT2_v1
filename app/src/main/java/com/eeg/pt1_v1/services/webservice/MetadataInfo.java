@@ -36,8 +36,21 @@ public class MetadataInfo {
 
     }
 
-    public String requestSingupPatient(Usuario user){
-        return HttpRequest.sendGetRequest(MetadataInfo.URL + MetadataInfo.SING_UP_PATIENT + JSONBuilder.bildSingupJson(user));
+    public String requestSingupPatient(Usuario user, Context context){
+        if(HttpRequest.isConnected(context)) {
+            String response = HttpRequest.sendGetRequest(MetadataInfo.URL +
+                    MetadataInfo.SING_UP_PATIENT +
+                    JSONBuilder.bildSingupJson(user));
+            if(response!=null && response.equals(Palabras.SUCESSFULL_SINGUP)){
+                return HttpRequest.sendGetRequest(MetadataInfo.URL +
+                        MetadataInfo.SING_IN +
+                        JSONBuilder.bildLoginJson(user.getEmail(), user.getPassword()));
+            }else
+                return response;
+        }
+        else
+            return Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED;
+
     }
 
     public String requestSingupSpetialist(Especialista spetialist){

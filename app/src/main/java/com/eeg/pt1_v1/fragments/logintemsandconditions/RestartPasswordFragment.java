@@ -7,8 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Palabras;
 
 /**
  * Created by Jorge Zepeda Tinoco on 7/2/2017.
@@ -19,6 +23,10 @@ public class RestartPasswordFragment extends Fragment{
     /* For the View */
     private EditText mEmail;
     private Button mRestartPassword;
+    private TextView mErrorRestartPassword;
+    private ImageView mLogo;
+    private ProgressBar mProgressBar;
+    private View mForgotView;
 
     /* For the SaveInstanceState */
     private static final String EMAIL_USER_FORGOT = "email_user_forgot";
@@ -37,17 +45,36 @@ public class RestartPasswordFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.forgot_fragment,container,false);
         mEmail = (EditText) rootView.findViewById(R.id.email_user_forgot);
         mRestartPassword = (Button) rootView.findViewById(R.id.restart_password_button);
+        mErrorRestartPassword = (TextView) rootView.findViewById(R.id.error_forgot);
+        mLogo = (ImageView) rootView.findViewById(R.id.imgLogo);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.forgot_progress);
+        mForgotView = (View) rootView.findViewById(R.id.restart_password_view);
 
-        if(savedInstanceState != null)
-            mEmail.setText(EMAIL_USER_FORGOT);
-
+        mRestartPassword.setOnClickListener(sendEmailAction);
         return rootView;
-
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putString(EMAIL_USER_FORGOT, mEmail.getText().toString());
+    private View.OnClickListener sendEmailAction = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            sendEmail();
+        }
+    };
+
+    private void sendEmail(){
+        String email = mEmail.getText().toString();
+        if(!email.equals("")){
+            mErrorRestartPassword.setText("");
+
+            //TODO
+
+            mForgotView.setVisibility(View.GONE);
+            mLogo.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.VISIBLE);
+
+        }
+        else
+            mErrorRestartPassword.setText(Palabras.ERROR_EMTY_EMAIL);
     }
 
 }

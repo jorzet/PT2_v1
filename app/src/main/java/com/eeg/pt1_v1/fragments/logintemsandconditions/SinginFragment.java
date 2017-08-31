@@ -115,6 +115,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
         if(!email.equals("") && !password.equals("")) {
+            mErrorLogin.setText("");
             new DoLogIn().execute(email, password);
             mLoginContent.setVisibility(View.GONE);
             mProgressBar.setVisibility(View.VISIBLE);
@@ -180,10 +181,7 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
                 new InfoHandler(getContext()).savePatientAndToken(response);
                 int idPatient = JSONBuilder.getIntFromJson(response, Palabras.ID_USER);
                 new GetPatientSchedules().execute(idPatient);
-
             }
-
-
         }
     }
 

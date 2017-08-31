@@ -35,7 +35,6 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_below="@+id/ic_logo0"
                 android:layout_marginTop="100dp"
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone" />

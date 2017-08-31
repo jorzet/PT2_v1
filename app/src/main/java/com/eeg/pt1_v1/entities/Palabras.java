@@ -37,6 +37,15 @@ public class Palabras {
     public static final String ERROR_INCORRECT_EMAIL_OR_PASSWORD = "Error, el usuario y/o contraseña son invalidos";
     public static final String ERROR_EMTY_USER_AND_PASSWORD = "Error, por favor ingresa el usuario y contraseña";
 
+    /* sing up*/
+    public static final String SUCESSFULL_SINGUP = "Usuario registrado correctamente";
+    public static final String ERROR_EMTY_INPUTS = "Error, por favor llena todos los campos";
+    public static final String ERROR_PASSWORDS_NOT_MATCH = "Error, las contraseñas no coinciden";
+    public static final String ERROR_GENDER_NOT_CHECKED = "Error, selecciona tu genero";
+
+    /* restrt password */
+    public static final String ERROR_EMTY_EMAIL = "Error, por favor ingresa tu email";
+
     public static final String ERROR_FROM_WEB_WERVICE = "Error al obtener información del servidor, vuelve a intentarlo más tarde";
     public static final String ERROR_FROM_NETWORK_NOT_CONNECTED = "Error, Conexión a internet no disponible";
 
