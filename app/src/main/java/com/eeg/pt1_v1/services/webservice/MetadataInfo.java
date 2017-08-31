@@ -54,15 +54,24 @@ public class MetadataInfo {
     }
 
     public String requestSingupSpetialist(Especialista spetialist){
-        return HttpRequest.sendGetRequest(MetadataInfo.URL + MetadataInfo.SING_UP_SPETIALIST + JSONBuilder.bildSingupJson(spetialist));
+        return HttpRequest.sendGetRequest(MetadataInfo.URL +
+                MetadataInfo.SING_UP_SPETIALIST +
+                JSONBuilder.bildSingupJson(spetialist));
     }
 
-    public String requestGetPatientData(int idPatient){
-        return HttpRequest.sendGetRequest(MetadataInfo.URL + MetadataInfo.GET_PATIENT_DATA + idPatient);
+    public String requestGetPatientData(int idPatient, Context context){
+        return HttpRequest.sendGetRequest(MetadataInfo.URL +
+                MetadataInfo.GET_PATIENT_DATA +
+                idPatient);
     }
 
-    public String requestGetSpetialistData(int idSpetialist){
-        return HttpRequest.sendGetRequest(MetadataInfo.URL + MetadataInfo.GET_SPETIALIST_DATA + idSpetialist);
+    public String requestGetSpetialistData(int idSpetialist, Context context){
+        if(HttpRequest.isConnected(context))
+            return HttpRequest.sendGetRequest(MetadataInfo.URL +
+                    MetadataInfo.GET_SPETIALIST_DATA +
+                    idSpetialist);
+        else
+        return Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED;
     }
 
     public String requestGetAllSpetialist(){

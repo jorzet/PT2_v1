@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.eeg.pt1_v1.entities.Especialista;
 import com.eeg.pt1_v1.entities.Paciente;
+import com.eeg.pt1_v1.services.webservice.JSONBuilder;
 
 /**
  * Created by Jorge Zepeda Tinoco on 17/08/17.
@@ -180,6 +181,18 @@ public class DataBase extends SQLiteOpenHelper{
     public String getJsonPatientSchedules(){
         SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
         return prefs.getString(TABLE_SCHEDULE, null);
+    }
+
+    public  void saveReference(String json, String TAG){
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(TAG, json);
+        editor.apply();
+    }
+
+    public String getReference(String TAG, Class clase){
+        SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
+        Log.i("MyTAG: ","get TAG: " +TAG + " json reference: " + prefs.getString(TAG, null));
+        return prefs.getString(TAG, null);
     }
 
 }

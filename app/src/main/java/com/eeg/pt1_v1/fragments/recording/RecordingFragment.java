@@ -21,6 +21,7 @@ import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.fragments.profile.ProfileFragment;
 import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
 import com.eeg.pt1_v1.fragments.schedule.SchedulesFragment;
+import com.eeg.pt1_v1.services.database.InfoHandler;
 import com.eeg.pt1_v1.ui.activities.ContentActivity;
 import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
 
@@ -73,6 +74,14 @@ public class RecordingFragment extends BaseFragment{
         mStartRecording.setOnClickListener(mStartStopRecordingListener);
         mRestartRecording.setOnClickListener(mRestartRecordingListener);
 
+        initCountDown();
+
+        Object object = new InfoHandler(getContext()).getReferenceObject(mCountDownTimer.getClass());
+        if(object!=null) {
+            Log.i("MyTAG: ", "class: " + object.getClass().getName());
+            //mCountDownTimer = (CountDownTimer) object;
+            isRecording = true;
+        }
         return rootView;
     }
 
@@ -115,6 +124,29 @@ public class RecordingFragment extends BaseFragment{
         manager.notify(0, builder.build());
     }
 
+    private void initCountDown(){
+        mCountDownTimer = new CountDownTimer(totalTimeCountInMilliSeconds, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Log.i("TIME","time: "+millisUntilFinished+" time2: "+timeCounter);
+                mTime = hmsTimeFormatter(millisUntilFinished);
+                mChronometerRecording.setText(mTime);
+                mProgressBarCircle.setProgress((int) ((millisUntilFinished*100)/totalTimeCountInMilliSeconds));
+                mPorcentageProgress.setText((int) (100-((millisUntilFinished*100)/totalTimeCountInMilliSeconds))+"%");
+
+                if(isNotificationAble)
+                    addNotification();
+            }
+
+            @Override
+            public void onFinish() {
+                mChronometerRecording.setText(hmsTimeFormatter(totalTimeCountInMilliSeconds));
+                setProgressBarValues();
+                mRestartRecording.setVisibility(View.GONE);
+            }
+        };
+    }
+
     private ImageView.OnClickListener mStartStopRecordingListener
             = new View.OnClickListener() {
         @Override
@@ -141,27 +173,9 @@ public class RecordingFragment extends BaseFragment{
     };
 
     private void startCountDownTimer() {
-        mCountDownTimer = new CountDownTimer(totalTimeCountInMilliSeconds, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                Log.i("TIME","time: "+millisUntilFinished+" time2: "+timeCounter);
-                mTime = hmsTimeFormatter(millisUntilFinished);
-                mChronometerRecording.setText(mTime);
-                mProgressBarCircle.setProgress((int) ((millisUntilFinished*100)/totalTimeCountInMilliSeconds));
-                mPorcentageProgress.setText((int) (100-((millisUntilFinished*100)/totalTimeCountInMilliSeconds))+"%");
-
-                if(isNotificationAble)
-                    addNotification();
-            }
-
-            @Override
-            public void onFinish() {
-                mChronometerRecording.setText(hmsTimeFormatter(totalTimeCountInMilliSeconds));
-                setProgressBarValues();
-                mRestartRecording.setVisibility(View.GONE);
-            }
-        }.start();
         mCountDownTimer.start();
+        Log.i("MyTAG: ","Current thread: " + mCountDownTimer);
+        new InfoHandler(getContext()).saveReferceObject(mCountDownTimer);
     }
 
     private void stopCountDownTimer() {
@@ -179,6 +193,4 @@ public class RecordingFragment extends BaseFragment{
                 TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
                 TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
     }
-
-
 }

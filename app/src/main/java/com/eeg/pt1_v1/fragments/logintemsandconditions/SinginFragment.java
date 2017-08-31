@@ -179,8 +179,52 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
             else if(JSONBuilder.checkJsonStructure(response)) {
                 Log.i("MyTAG: ", response);
                 new InfoHandler(getContext()).savePatientAndToken(response);
-                int idPatient = JSONBuilder.getIntFromJson(response, Palabras.ID_USER);
-                new GetPatientSchedules().execute(idPatient);
+                Paciente paciente = new InfoHandler(getContext()).getPatientInfo();
+                if(paciente.getEspecialista()!=null)
+                    new GetSpetialistData().execute();
+                else
+                    new GetPatientSchedules().execute();
+            }
+        }
+    }
+
+    private class GetSpetialistData extends AsyncTask<Integer, Long, String>{
+
+        @Override
+        protected String doInBackground(Integer... params) {
+            Paciente paciente = new InfoHandler(getContext()).getPatientInfo();
+            return new MetadataInfo().requestGetSpetialistData(paciente.getEspecialista().getId(), getContext());
+        }
+
+        protected void onPostExecute(String response) {
+
+            if(response==null || response.equals("")) {
+                mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(response.equals(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED)) {
+                mErrorLogin.setText(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED);
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(response.contains("Error") && response.contains("Message")) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int codeError = json.getInt("Error");
+                    String message = json.getString("Message");
+
+                    mErrorLogin.setText(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(JSONBuilder.checkJsonStructure(response)) {
+                Log.i("MyTAG: ", response);
+                new InfoHandler(getContext()).saveSpetilistInfo(response);
+                new GetPatientSchedules().execute();
             }
         }
     }
@@ -188,7 +232,6 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
     private class GetPatientSchedules extends AsyncTask<Integer, Long, String> {
 
         protected String doInBackground(Integer... params) {
-            int idPatient = params[0];
             Paciente paciente = new InfoHandler(getContext()).getPatientInfo();
             String res = new MetadataInfo().requestGetPatientSchedules(paciente.getId());
             return res;

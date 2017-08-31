@@ -1,6 +1,7 @@
 package com.eeg.pt1_v1.services.webservice;
 
 import android.content.Intent;
+import android.os.CountDownTimer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -68,6 +69,10 @@ public class JSONBuilder {
         return new Gson().toJson(object).replace("{","%7B").replace("}","%7D");
     }
 
+    public static String bildJsonFromObject(Object object){
+        return new Gson().toJson(object);
+    }
+
     public static Object getObjectFromJson(String json, Class clase){
         return new Gson().fromJson(json, clase);
     }
@@ -117,6 +122,31 @@ public class JSONBuilder {
             return new Gson().fromJson(element , listType);
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String buildObjectReferenceJson(Object object, String KEY){
+        JSONObject json = new JSONObject();
+        try {
+            json.put(KEY,object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return json.toString();
+    }
+
+    public static Object getObjectReferenceFromJson(String json, String KEY){
+        JSONObject object = null;
+        try {
+            object = new JSONObject(json);
+            Object obj = object.get(KEY);
+            return obj;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        } catch (NullPointerException e){
             return null;
         }
     }

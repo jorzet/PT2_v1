@@ -93,8 +93,7 @@
                         android:layout_marginBottom="24dp"
                         android:padding="12dp"
                         android:backgroundTint="@color/colorGreenButton"
-                        android:text="@string/signin"
-                        />
+                        android:text="@string/signin" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -107,7 +106,7 @@
                             android:padding="12dp"
                             android:backgroundTint="@color/com_facebook_button_login_background_color"
                             android:text="Registrate"
-                            />
+                            android:textColor="@color/cardview_light_background" />
 
                         <TextView
                             android:id="@+id/link_to_forgot"
