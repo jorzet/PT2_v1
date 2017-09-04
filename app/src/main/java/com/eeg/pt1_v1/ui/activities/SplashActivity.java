@@ -50,7 +50,8 @@ public class SplashActivity extends BaseActivityLifecycle {
     }
 
     private void goHomeActivity(){
-        Intent intent = new Intent(SplashActivity.this, ContentActivity.class);
+        Intent intent = new Intent(SplashActivity.this, BluetoothConnectionActivity.class);
+        //Intent intent = new Intent(SplashActivity.this, ContentActivity.class);
         startActivity(intent);
         SplashActivity.this.finish();
     }

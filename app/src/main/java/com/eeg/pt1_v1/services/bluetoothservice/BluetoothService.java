@@ -2,6 +2,7 @@ package com.eeg.pt1_v1.services.bluetoothservice;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothSocket;
 
 import java.io.IOException;
@@ -20,6 +21,12 @@ public class BluetoothService {
 
     public BluetoothService(){
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    }
+
+    public static boolean isBluetoothHeadsetConnected() {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
+                && mBluetoothAdapter.getProfileConnectionState(BluetoothHeadset.HEADSET) == BluetoothHeadset.STATE_CONNECTED;
     }
 
     public BluetoothAdapter isAvailable(){

@@ -19,6 +19,7 @@ import com.eeg.pt1_v1.entities.Cita;
 import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.services.database.InfoHandler;
+import com.eeg.pt1_v1.ui.activities.BluetoothConnectionActivity;
 import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
 
 import java.util.ArrayList;
