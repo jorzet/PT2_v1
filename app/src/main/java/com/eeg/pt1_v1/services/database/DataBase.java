@@ -195,4 +195,15 @@ public class DataBase extends SQLiteOpenHelper{
         return prefs.getString(TAG, null);
     }
 
+    public void saveExtra(String TAG, String param){
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(TAG, param);
+        editor.apply();
+    }
+
+    public String getExtra(String TAG){
+        SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(TAG, null);
+    }
+
 }

@@ -97,4 +97,16 @@ public class InfoHandler {
         Log.i("MyTAG: ","object: " + object);
         return object;
     }
+
+    /* Those methods are why the app needs to store the view values
+     * when the user opens the app from the notification
+     * it produces a null pointer exception */
+    public void saveExtraFromActivity(String TAG, String param){
+        DataBase db = new DataBase(mContext);
+        db.saveExtra(TAG, param);
+    }
+    public String getExtraStored(String TAG){
+        DataBase db = new DataBase(mContext);
+        return db.getExtra(TAG);
+    }
 }

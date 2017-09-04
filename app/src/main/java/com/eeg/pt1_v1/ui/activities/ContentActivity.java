@@ -57,6 +57,7 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main_container);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

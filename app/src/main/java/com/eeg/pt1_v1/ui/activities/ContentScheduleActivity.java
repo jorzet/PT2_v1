@@ -16,8 +16,10 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
 import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
 import com.eeg.pt1_v1.fragments.schedule.SchedulesFragment;
+import com.eeg.pt1_v1.services.database.InfoHandler;
 
 
 /**
@@ -44,14 +46,16 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
 
         mBackButton.setOnClickListener(backAction);
 
-        Bundle extras = getIntent().getExtras();
 
-        String[] date = extras.getString(SchedulesFragment.DATE_TEXT).split(" ");
+        InfoHandler myHandler = new InfoHandler(getApplicationContext());
+
+
+        String[] date = myHandler.getExtraStored(SchedulesFragment.DATE_TEXT).split(" ");
         mDate.setText(date[1]);
 
         mContext = getApplicationContext();
         ColorGenerator generator = ColorGenerator.MATERIAL;
-        int color = generator.getColor(extras.getString(SchedulesFragment.DATE_COLOR));
+        int color = generator.getColor(myHandler.getExtraStored(SchedulesFragment.DATE_COLOR));
         TextDrawable drawable = TextDrawable.builder().buildRound(date[0], color);
 
         mRoundedDate.setImageDrawable(drawable);
@@ -71,9 +75,18 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
         colorAnimation.start();
         mToolbar.setBackgroundColor(color);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.fragment_container_schedule, new ScheduleFragment());
-        ft.commit();
+        Bundle extras = getIntent().getExtras();
+
+        if(extras!=null && extras.getInt(RecordingFragment.RECORDING) == 1){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container_schedule, new RecordingFragment());
+            ft.commit();
+        }
+        else {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.fragment_container_schedule, new ScheduleFragment());
+            ft.commit();
+        }
     }
 
     private View.OnClickListener backAction = new View.OnClickListener() {

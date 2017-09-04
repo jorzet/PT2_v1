@@ -15,6 +15,7 @@ import com.eeg.pt1_v1.adapters.CalibrationCanvas;
 import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
+import com.eeg.pt1_v1.services.database.InfoHandler;
 
 /**
  * Created by Jorge Zepeda Tinoco on 26/07/17.
@@ -139,7 +140,8 @@ public class CalibrationFragment extends BaseFragment {
     }
 
     private void showSpetialistSuggestion(){
-        String suggestions = getActivity().getIntent().getExtras().getString(Palabras.SPETIALIST_SUGGESTIONS);
+        InfoHandler myHandler = new InfoHandler(getContext());
+        String suggestions = myHandler.getExtraStored(Palabras.SPETIALIST_SUGGESTIONS);
         mSuggestion.setText(suggestions);
     }
 }

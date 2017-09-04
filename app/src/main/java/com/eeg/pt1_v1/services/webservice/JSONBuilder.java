@@ -127,14 +127,15 @@ public class JSONBuilder {
     }
 
     public static String buildObjectReferenceJson(Object object, String KEY){
-        JSONObject json = new JSONObject();
+        return new Gson().toJson(object);
+        /*JSONObject json = new JSONObject();
         try {
             json.put(KEY,object);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return json.toString();
+        return json.toString();*/
     }
 
     public static Object getObjectReferenceFromJson(String json, String KEY){

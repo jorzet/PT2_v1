@@ -94,9 +94,15 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), ContentScheduleActivity.class);
 
-        intent.putExtra(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
-        intent.putExtra(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
-        intent.putExtra(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
+        InfoHandler myHandler = new InfoHandler(getContext());
+
+        myHandler.saveExtraFromActivity(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
+        myHandler.saveExtraFromActivity(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
+        myHandler.saveExtraFromActivity(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
+
+        //intent.putExtra(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
+        //intent.putExtra(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
+        //intent.putExtra(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
 
         ImageView ivDate = (ImageView) view.findViewById(R.id.date_schedule);
         TextView tvDate = (TextView) view.findViewById(R.id.date);

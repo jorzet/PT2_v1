@@ -32,6 +32,8 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class RecordingFragment extends BaseFragment{
+    public static final String RECORDING = "recording_fragment";
+
     private TextView mPorcentageProgress;
     private ProgressBar mProgressBarCircle;
     private TextView mChronometerRecording;
@@ -86,6 +88,12 @@ public class RecordingFragment extends BaseFragment{
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         isNotificationAble = true;
@@ -108,13 +116,14 @@ public class RecordingFragment extends BaseFragment{
                         .setContentText("Total de tiempo: ");
 
         Intent notificationIntent;
-        Fragment homeFragment = getFragmentManager().findFragmentById(R.id.fragment_container_schedule);
-        if(homeFragment instanceof ProfileFragment ||
-                homeFragment instanceof ScheduleFragment ||
-                homeFragment instanceof SchedulesFragment)
-            notificationIntent = new Intent(ContentActivity.mContext, ContentActivity.class);
+        Context context = getActivity();
+        if(context instanceof ContentActivity) {
+            notificationIntent = new Intent(ContentActivity.mContext, ContentScheduleActivity.class);
+        }
         else
-            notificationIntent = new Intent(getContext(), ContentActivity.class);
+            notificationIntent = new Intent(getContext(), ContentScheduleActivity.class);
+
+        notificationIntent.putExtra(RecordingFragment.RECORDING,1);
 
         PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
