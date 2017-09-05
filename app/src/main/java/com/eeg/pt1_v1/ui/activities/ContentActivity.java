@@ -1,11 +1,17 @@
 package com.eeg.pt1_v1.ui.activities;
 
 import android.app.ActivityOptions;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +24,8 @@ import android.widget.TextView;
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.adapters.Pager;
 import com.eeg.pt1_v1.entities.Paciente;
+import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
+import com.eeg.pt1_v1.services.android.CountDown;
 import com.eeg.pt1_v1.services.database.InfoHandler;
 
 /**
@@ -37,6 +45,8 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     ImageView mBluetoothIcon;
     private Pager mAdapter;
 
+    private String mTime;
+
     private int[] mTabIcons = {
             R.drawable.ic_profile,
             R.drawable.ic_home,
@@ -52,6 +62,9 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     /* Variable for SharedPreferences */
     public boolean isMedic = true;
 
+    /* Variable for intent */
+    private boolean isFromContentScheduleActivity = false;
+
     public static Context mContext;
 
     @Override
@@ -63,7 +76,7 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mContext = getApplicationContext();
+        mContext = getApplication();
 
         getCurrentUser();
         mProfilePhoto = (ImageView) findViewById(R.id.user_profile_photo);
@@ -106,6 +119,35 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     protected void onResume() {
         super.onResume();
         getInfoUser();
+        mContext = getApplication();
+
+        isFromContentScheduleActivity = getIntent().getBooleanExtra(RecordingFragment.RECORDING,false);
+        if(isFromContentScheduleActivity) { // just execute when comes from ContentScheduleActivity
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    BroadcastReceiver br = new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            if (intent.getExtras() != null) {
+                                if (!intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
+                                    mTime = intent.getStringExtra(CountDown.CURRENT_STRING_TIME);
+                                    addNotification(false);
+                                } else if (intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
+                                    addNotification(true);
+                                }
+                            }
+                        }
+                    };
+                    registerReceiver(br, new IntentFilter(CountDown.COUNTDOWN_BR));
+                }
+            }, 100);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 
     @Override
@@ -136,6 +178,54 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
                 goSettings();
                 break;
         }
+    }
+
+    private BroadcastReceiver br = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getExtras() != null) {
+                if (!intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
+                    mTime = intent.getStringExtra(CountDown.CURRENT_STRING_TIME);
+                    addNotification(false);
+                } else if (intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
+                    addNotification(true);
+                }
+            }
+        }
+    };
+
+    private void addNotification(boolean isFinished) {
+        NotificationCompat.Builder builder;
+        if(isFinished)
+            builder = new NotificationCompat.Builder(getApplicationContext())
+                    .setSmallIcon(R.drawable.ic_chronometer_notification)
+                    .setContentTitle("Grabación Finalizada")
+                    .setContentText("Total de tiempo: ");
+        else
+
+            builder = new NotificationCompat.Builder(getApplicationContext())
+                    .setSmallIcon(R.drawable.ic_chronometer_notification)
+                    .setContentTitle("Tiempo restante: "+mTime)
+                    .setContentText("Total de tiempo: ");
+
+        Intent notificationIntent;
+
+        notificationIntent = new Intent(getApplicationContext(), ContentScheduleActivity.class);
+
+        notificationIntent.putExtra(RecordingFragment.RECORDING, 1);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+        builder.setContentIntent(contentIntent);
+
+        NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+
+        //new InfoHandler(getContext()).saveExtraFromActivity(RecordingFragment.CURRENT_TIME,mTime); // this just save the time
+
+
     }
 
     public void getCurrentUser(){

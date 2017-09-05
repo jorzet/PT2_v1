@@ -3,6 +3,7 @@ package com.eeg.pt1_v1.ui.activities;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,5 +96,12 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
             onBackPressed();
         }
     };
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(RecordingFragment.RECORDING, true);
+        setResult(RESULT_OK, intent);
 
+        super.onBackPressed();
+    }
 }
