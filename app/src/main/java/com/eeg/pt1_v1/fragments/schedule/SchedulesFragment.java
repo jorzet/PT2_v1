@@ -19,8 +19,8 @@ import com.eeg.pt1_v1.entities.Cita;
 import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.services.database.InfoHandler;
-import com.eeg.pt1_v1.ui.activities.BluetoothConnectionActivity;
 import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
+import com.eeg.pt1_v1.ui.dialogs.ErrorDialog;
 
 import java.util.ArrayList;
 
@@ -92,25 +92,53 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), ContentScheduleActivity.class);
-
         InfoHandler myHandler = new InfoHandler(getContext());
+        String scheduleRecording = myHandler.getExtraStored(Palabras.SCHEDULE_POSITION);
+        if(scheduleRecording!=null) {
+            String[] schedulePositionValues = scheduleRecording.split("-");
+            if (Boolean.parseBoolean(schedulePositionValues[1]) && Integer.parseInt(schedulePositionValues[0]) == position) {
+                Intent intent = new Intent(getActivity(), ContentScheduleActivity.class);
 
-        myHandler.saveExtraFromActivity(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
-        myHandler.saveExtraFromActivity(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
-        myHandler.saveExtraFromActivity(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
+                myHandler.saveExtraFromActivity(SchedulesFragment.DATE_COLOR, (String) listView.getAdapter().getItem(position));
+                myHandler.saveExtraFromActivity(SchedulesFragment.DATE_TEXT, stringArrayList.get(position));
+                myHandler.saveExtraFromActivity(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
 
-        //intent.putExtra(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
-        //intent.putExtra(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
-        //intent.putExtra(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
+                //intent.putExtra(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
+                //intent.putExtra(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
+                //intent.putExtra(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
 
-        ImageView ivDate = (ImageView) view.findViewById(R.id.date_schedule);
-        TextView tvDate = (TextView) view.findViewById(R.id.date);
-        Pair<View, String> p1 = Pair.create((View)ivDate, "p");
-        Pair<View, String> p2 = Pair.create((View)tvDate, "date_text_container_schedule");
+                ImageView ivDate = (ImageView) view.findViewById(R.id.date_schedule);
+                TextView tvDate = (TextView) view.findViewById(R.id.date);
+                Pair<View, String> p1 = Pair.create((View) ivDate, "p");
+                Pair<View, String> p2 = Pair.create((View) tvDate, "date_text_container_schedule");
 
-        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1,p2);
+                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2);
 
-        startActivity(intent, transitionActivityOptions.toBundle());
+                startActivity(intent, transitionActivityOptions.toBundle());
+            } else
+                new ErrorDialog(getContext()).showErrorNewRecording();
+        }
+        else{
+            Intent intent = new Intent(getActivity(), ContentScheduleActivity.class);
+
+            myHandler.saveExtraFromActivity(SchedulesFragment.DATE_COLOR, (String) listView.getAdapter().getItem(position));
+            myHandler.saveExtraFromActivity(SchedulesFragment.DATE_TEXT, stringArrayList.get(position));
+            myHandler.saveExtraFromActivity(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
+            myHandler.saveExtraFromActivity(Palabras.SCHEDULE_POSITION, position + "-" + "false");
+
+            //intent.putExtra(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
+            //intent.putExtra(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
+            //intent.putExtra(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
+
+            ImageView ivDate = (ImageView) view.findViewById(R.id.date_schedule);
+            TextView tvDate = (TextView) view.findViewById(R.id.date);
+            Pair<View, String> p1 = Pair.create((View) ivDate, "p");
+            Pair<View, String> p2 = Pair.create((View) tvDate, "date_text_container_schedule");
+
+            ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2);
+
+            startActivity(intent, transitionActivityOptions.toBundle());
+        }
+
     }
 }

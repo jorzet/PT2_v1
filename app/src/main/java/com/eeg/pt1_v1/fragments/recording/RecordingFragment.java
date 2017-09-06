@@ -23,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Cita;
+import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.fragments.profile.ProfileFragment;
 import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
@@ -42,6 +44,7 @@ import static android.content.Context.ACTIVITY_SERVICE;
  */
 
 public class RecordingFragment extends BaseFragment {
+    public static final String FROM_RECORDING = "from_recording";
     public static final String RECORDING = "recording_fragment";
     public static final String CURRENT_TIME = "current_time";
 
@@ -60,7 +63,7 @@ public class RecordingFragment extends BaseFragment {
     };
 
     private String mTime;
-    private long totalTimeCountInMilliSeconds = 60000; // mili-seconds
+    private long totalTimeCountInMilliSeconds; // mili-seconds
     private long everyTime = 1000; //mili-seconds
     private long timeCounter = 0;
     private CountDownTimer mCountDownTimer;
@@ -91,8 +94,17 @@ public class RecordingFragment extends BaseFragment {
         mStartRecording.setOnClickListener(mStartStopRecordingListener);
         mRestartRecording.setOnClickListener(mRestartRecordingListener);
 
+        InfoHandler myHandler = new InfoHandler(getContext());
+        String[] values = myHandler.getExtraStored(Palabras.SCHEDULE_POSITION).split("-");
+        Cita c = myHandler.getPatientSchedule(Integer.parseInt(values[0]));
+        String duracion = c.getDuracion();
+        totalTimeCountInMilliSeconds = StringToHMSInt(duracion);
+        mTotalTimeRecording.setText(duracion);
 
-
+        /*if(Boolean.parseBoolean(new InfoHandler(getContext()).getExtraStored(RecordingFragment.RECORDING))){
+            mStartRecording.setVisibility(View.GONE);
+            mRestartRecording.setVisibility(View.GONE);
+        }*/
         return rootView;
     }
 
@@ -123,7 +135,7 @@ public class RecordingFragment extends BaseFragment {
     @Override
     public void onStop() {
         try {
-            getActivity().unregisterReceiver(br);
+            //getActivity().unregisterReceiver(br);
         } catch (Exception e) {
             // Receiver was probably already stopped in onPause()
         }
@@ -140,36 +152,40 @@ public class RecordingFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                BroadcastReceiver br = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        if (intent.getExtras() != null) {
-                            if (!intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
-                                mTime = intent.getStringExtra(CountDown.CURRENT_STRING_TIME);
-                                mChronometerRecording.setText(mTime);
-                                mProgressBarCircle.setProgress((int) ((intent.getLongExtra(CountDown.CURRENT_LONG_TIME, 0) * 100) / totalTimeCountInMilliSeconds));
-                                mPorcentageProgress.setText((int) (100 - ((intent.getLongExtra(CountDown.CURRENT_LONG_TIME, 0) * 100) / totalTimeCountInMilliSeconds)) + "%");
+        final Activity activity = getActivity();
 
-                                if (isNotificationAble)
-                                    addNotification(false);
-                            } else if (intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
-                                mProgressBarCircle.setProgress(0);
-                                mChronometerRecording.setText("00:00:00");
-                                mPorcentageProgress.setText("100%");
-                                //setProgressBarValues();
-                                mStartRecording.setVisibility(View.GONE);
-                                addNotification(true);
+        if(activity!=null) {
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    BroadcastReceiver br = new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            if (intent.getExtras() != null) {
+                                if (!intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
+                                    mTime = intent.getStringExtra(CountDown.CURRENT_STRING_TIME);
+                                    mChronometerRecording.setText(mTime);
+                                    mProgressBarCircle.setProgress((int) ((intent.getLongExtra(CountDown.CURRENT_LONG_TIME, 0) * 100) / totalTimeCountInMilliSeconds));
+                                    mPorcentageProgress.setText((int) (100 - ((intent.getLongExtra(CountDown.CURRENT_LONG_TIME, 0) * 100) / totalTimeCountInMilliSeconds)) + "%");
+
+                                    if (isNotificationAble)
+                                        addNotification(false);
+                                } else if (intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
+                                    mProgressBarCircle.setProgress(0);
+                                    mChronometerRecording.setText("00:00:00");
+                                    mPorcentageProgress.setText("100%");
+                                    //setProgressBarValues();
+                                    mStartRecording.setVisibility(View.GONE);
+                                    addNotification(true);
+                                }
                             }
                         }
-                    }
-                };
-                getActivity().registerReceiver(br, new IntentFilter(CountDown.COUNTDOWN_BR));
-            }
-        }, 100);
+                    };
+                    activity.registerReceiver(br, new IntentFilter(CountDown.COUNTDOWN_BR));
+                }
+            }, 100);
 
-        isNotificationAble = true;
+            isNotificationAble = true;
+        }
     }
 
     @Override
@@ -217,10 +233,6 @@ public class RecordingFragment extends BaseFragment {
 
     }
 
-    private void initCountDown(){
-
-    }
-
     private ImageView.OnClickListener mStartStopRecordingListener
             = new View.OnClickListener() {
         @Override
@@ -250,6 +262,7 @@ public class RecordingFragment extends BaseFragment {
         getActivity().startService(new Intent(getActivity(), CountDown.class));
         Log.i("MyTAG", "Started countdown");
         getActivity().registerReceiver(br, new IntentFilter(CountDown.COUNTDOWN_BR));
+
         //mCountDownTimer.start();
         //Log.i("MyTAG: ","Current thread: " + mCountDownTimer);
         //new InfoHandler(getContext()).saveReferceObject(mCountDownTimer);
@@ -271,6 +284,14 @@ public class RecordingFragment extends BaseFragment {
                 TimeUnit.MILLISECONDS.toHours(milliSeconds),
                 TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
                 TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
+    }
+
+    private long StringToHMSInt(String time){
+        String[] units = time.split(":"); //will break the string up into an array
+        int hours = Integer.parseInt(units[0]);
+        int minutes = Integer.parseInt(units[1]); //first element
+        int seconds = Integer.parseInt(units[2]); //second element
+        return (3600*hours + 60*minutes + seconds)*1000; //add up our values
     }
 
 

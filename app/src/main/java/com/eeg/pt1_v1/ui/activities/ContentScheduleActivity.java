@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Palabras;
+import com.eeg.pt1_v1.fragments.bluetooth.BluetoothConnectionFragment;
 import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
 import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
 import com.eeg.pt1_v1.fragments.schedule.SchedulesFragment;
@@ -78,14 +80,15 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
 
         Bundle extras = getIntent().getExtras();
 
-        if(extras!=null && extras.getInt(RecordingFragment.RECORDING) == 1){
+        if(extras!=null && extras.getInt(RecordingFragment.RECORDING) == 1 || Boolean.parseBoolean(new InfoHandler(getApplication()).getExtraStored(RecordingFragment.RECORDING))){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container_schedule, new RecordingFragment());
             ft.commit();
         }
         else {
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.fragment_container_schedule, new ScheduleFragment());
+            ft.add(R.id.fragment_container_schedule, new BluetoothConnectionFragment());
             ft.commit();
         }
     }
@@ -98,10 +101,16 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
     };
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra(RecordingFragment.RECORDING, true);
-        setResult(RESULT_OK, intent);
-
+        InfoHandler ih = new InfoHandler(getApplication());
+        if(getSupportFragmentManager().findFragmentById(R.id.fragment_container_schedule) instanceof RecordingFragment && Boolean.parseBoolean(ih.getExtraStored(RecordingFragment.RECORDING)))
+            ih.saveExtraFromActivity(RecordingFragment.FROM_RECORDING, "true");
+        else
+            ih.saveExtraFromActivity(Palabras.SCHEDULE_POSITION, null);
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }

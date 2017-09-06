@@ -1,5 +1,6 @@
 package com.eeg.pt1_v1.ui.activities;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,6 +28,7 @@ import com.eeg.pt1_v1.entities.Paciente;
 import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
 import com.eeg.pt1_v1.services.android.CountDown;
 import com.eeg.pt1_v1.services.database.InfoHandler;
+import com.eeg.pt1_v1.ui.dialogs.ErrorDialog;
 
 /**
  * Created by Jorge Zepeda Tinoco on 7/1/2017.
@@ -121,7 +123,7 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
         getInfoUser();
         mContext = getApplication();
 
-        isFromContentScheduleActivity = getIntent().getBooleanExtra(RecordingFragment.RECORDING,false);
+        isFromContentScheduleActivity = Boolean.parseBoolean(new InfoHandler(getApplication()).getExtraStored(RecordingFragment.FROM_RECORDING));
         if(isFromContentScheduleActivity) { // just execute when comes from ContentScheduleActivity
             new Handler().postDelayed(new Runnable() {
                 public void run() {
@@ -142,6 +144,7 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
                 }
             }, 100);
         }
+
     }
 
     @Override
@@ -179,20 +182,6 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
                 break;
         }
     }
-
-    private BroadcastReceiver br = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getExtras() != null) {
-                if (!intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
-                    mTime = intent.getStringExtra(CountDown.CURRENT_STRING_TIME);
-                    addNotification(false);
-                } else if (intent.getBooleanExtra(CountDown.COUNT_DOWN_FINISHED, false)) {
-                    addNotification(true);
-                }
-            }
-        }
-    };
 
     private void addNotification(boolean isFinished) {
         NotificationCompat.Builder builder;
@@ -241,8 +230,13 @@ public class ContentActivity extends BaseActivityLifecycle implements TabLayout.
     }
 
     private void doLogout() {
-        removeSessionData();
-        goLogInActivity();
+        if(!Boolean.parseBoolean(new InfoHandler(getApplication()).getExtraStored(RecordingFragment.RECORDING))) {
+            removeSessionData();
+            goLogInActivity();
+        }
+        else{
+            new ErrorDialog(this).showErrorLogOut();
+        }
     }
 
     private void goSettings() {

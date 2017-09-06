@@ -78,6 +78,13 @@ public class InfoHandler {
 
     public Cita getPatientSchedule(int idSchedule){
         Cita c = new Cita();
+        String savedSchedules = getPatientSchedulesJson();
+        ArrayList<Cita> citas = getPatientSchedules(savedSchedules, Cita.class);
+        if (citas != null) {
+            for (int i = 0; i <= idSchedule; i++) {
+                c = citas.get(i);
+            }
+        }
         return c;
     }
 

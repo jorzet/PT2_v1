@@ -7,6 +7,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.eeg.pt1_v1.entities.Cita;
+import com.eeg.pt1_v1.entities.Palabras;
+import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
+import com.eeg.pt1_v1.services.database.InfoHandler;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,6 +33,15 @@ public class CountDown extends Service {
     public void onCreate() {
         super.onCreate();
         Log.i("MyTAG", "Starting timer...");
+        InfoHandler ih = new InfoHandler(getApplication());
+        ih.saveExtraFromActivity(RecordingFragment.RECORDING, "true");
+
+        String[] schedulePositionValues = ih.getExtraStored(Palabras.SCHEDULE_POSITION).split("-");
+        ih.saveExtraFromActivity(Palabras.SCHEDULE_POSITION, schedulePositionValues[0]+"-"+"true");
+
+        Cita c = ih.getPatientSchedule(Integer.parseInt(schedulePositionValues[0]));
+        String duracion = c.getDuracion();
+        totalTimeCountInMilliSeconds = StringToHMSInt(duracion);
 
         mCountDownTimer = new CountDownTimer(totalTimeCountInMilliSeconds, 1000) {
             @Override
@@ -42,10 +56,14 @@ public class CountDown extends Service {
 
             @Override
             public void onFinish() {
-
-
                 bi.putExtra(COUNT_DOWN_FINISHED, true);
                 bi.putExtra(CURRENT_STRING_TIME,ZERO_TIME_VALUE);
+
+                InfoHandler ih = new InfoHandler(getApplication());
+
+                ih.saveExtraFromActivity(RecordingFragment.RECORDING, "false");
+                ih.saveExtraFromActivity(Palabras.SCHEDULE_POSITION, null);
+
                 sendBroadcast(bi);
             }
         }.start();
@@ -76,5 +94,13 @@ public class CountDown extends Service {
                 TimeUnit.MILLISECONDS.toHours(milliSeconds),
                 TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
                 TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
+    }
+
+    private long StringToHMSInt(String time){
+        String[] units = time.split(":"); //will break the string up into an array
+        int hours = Integer.parseInt(units[0]);
+        int minutes = Integer.parseInt(units[1]); //first element
+        int seconds = Integer.parseInt(units[2]); //second element
+        return (3600*hours + 60*minutes + seconds)*1000; //add up our values
     }
 }

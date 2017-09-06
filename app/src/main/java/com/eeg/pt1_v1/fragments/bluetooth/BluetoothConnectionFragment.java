@@ -1,4 +1,4 @@
-package com.eeg.pt1_v1.ui.activities;
+package com.eeg.pt1_v1.fragments.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.fragments.content.BaseFragment;
+import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -27,7 +32,7 @@ import java.util.ArrayList;
  * Created by Jorge Zepeda Tinoco on 09/07/17.
  */
 
-public class BluetoothConnectionActivity extends BaseActivityLifecycle {
+public class BluetoothConnectionFragment extends BaseFragment {
 
     /* To chech the bluetooth adapter status  */
     private static final int REQUEST_ENABLE_BT = 1;
@@ -61,16 +66,23 @@ public class BluetoothConnectionActivity extends BaseActivityLifecycle {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bluetooth_container);
+    }
 
-        mStateBluetooth = (TextView) findViewById (R.id.bluetooth_text);
-        mSkip = (TextView) findViewById(R.id.skip_connection);
-        mListDevicesFound = (ListView) findViewById(R.id.devicesfound);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressbar_bluetooth);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        if (container == null)
+            return null;
+        View rootView = inflater.inflate(R.layout.bluetooth_container, container, false);
+
+        mStateBluetooth = (TextView) rootView.findViewById (R.id.bluetooth_text);
+        mSkip = (TextView) rootView.findViewById(R.id.skip_connection);
+        mListDevicesFound = (ListView) rootView.findViewById(R.id.devicesfound);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressbar_bluetooth);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         arrayListBluetoothDevices = new ArrayList<>();
-        mBTArrayAdapter = new ArrayAdapter<>(BluetoothConnectionActivity.this, android.R.layout.simple_list_item_1);
+        mBTArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1);
         listItemClicked = new ListItemClicked();
 
         mListDevicesFound.setOnItemClickListener(listItemClicked);
@@ -79,25 +91,26 @@ public class BluetoothConnectionActivity extends BaseActivityLifecycle {
 
         initBluetoothStateThread();
 
-        registerReceiver(ActionFoundReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+        getActivity().registerReceiver(ActionFoundReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+        return rootView;
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(ActionFoundReceiver);
+        getActivity().unregisterReceiver(ActionFoundReceiver);
     }
 
     private Button.OnClickListener mSkipListener
             = new Button.OnClickListener(){
         @Override
         public void onClick(View arg0) {
-            goToHome();
+            goScheduleFragment();
         }
     };
 
     private void initBluetoothStateThread(){
-        if((currentBluetoothState = CheckBlueToothState())== BluetoothConnectionActivity.BLUETOOTH_ADAPTER_TURNED_OFF)
+        if((currentBluetoothState = CheckBlueToothState())== BluetoothConnectionFragment.BLUETOOTH_ADAPTER_TURNED_OFF)
             turnOnBluetooth();
 
         final Handler handler = new Handler();
@@ -105,7 +118,7 @@ public class BluetoothConnectionActivity extends BaseActivityLifecycle {
             public void run() {
                 if(currentBluetoothState!=CheckBlueToothState()){
                     currentBluetoothState=CheckBlueToothState();
-                    if(currentBluetoothState == BluetoothConnectionActivity.BLUETOOTH_ADAPTER_TURNED_OFF)
+                    if(currentBluetoothState == BluetoothConnectionFragment.BLUETOOTH_ADAPTER_TURNED_OFF)
                         turnOnBluetooth();
                 }
                 handler.postDelayed(this, 1000);
@@ -116,25 +129,25 @@ public class BluetoothConnectionActivity extends BaseActivityLifecycle {
 
     private int CheckBlueToothState(){
         if (mBluetoothAdapter == null){
-            mStateBluetooth.setText(BluetoothConnectionActivity.NOT_HAS_BLUETOOTH);
+            mStateBluetooth.setText(BluetoothConnectionFragment.NOT_HAS_BLUETOOTH);
             mProgressBar.setVisibility(View.GONE);
-            return BluetoothConnectionActivity.BLUETOOTH_ADAPTER_NOT_HAS_BLUETOOTH;
+            return BluetoothConnectionFragment.BLUETOOTH_ADAPTER_NOT_HAS_BLUETOOTH;
         }else{
             if (mBluetoothAdapter.isEnabled()){
                 if(mBluetoothAdapter.isDiscovering()){
-                    mStateBluetooth.setText(BluetoothConnectionActivity.SCANNING_DEVICES);
+                    mStateBluetooth.setText(BluetoothConnectionFragment.SCANNING_DEVICES);
                     mProgressBar.setVisibility(View.VISIBLE);
                 }else{
-                    mStateBluetooth.setText(BluetoothConnectionActivity.BLUETOOTH_TURNED_ON);
+                    mStateBluetooth.setText(BluetoothConnectionFragment.BLUETOOTH_TURNED_ON);
                     mProgressBar.setVisibility(View.VISIBLE);
                     mBluetoothAdapter.startDiscovery();
                 }
-                return BluetoothConnectionActivity.BLUETOOTH_ADAPTER_TURNED_ON;
+                return BluetoothConnectionFragment.BLUETOOTH_ADAPTER_TURNED_ON;
             }else{
-                mStateBluetooth.setText(BluetoothConnectionActivity.BLUETOOTH_TURNED_OFF);
+                mStateBluetooth.setText(BluetoothConnectionFragment.BLUETOOTH_TURNED_OFF);
                 mProgressBar.setVisibility(View.GONE);
                 mBTArrayAdapter.clear();
-                return BluetoothConnectionActivity.BLUETOOTH_ADAPTER_TURNED_OFF;
+                return BluetoothConnectionFragment.BLUETOOTH_ADAPTER_TURNED_OFF;
             }
         }
     }
@@ -144,12 +157,12 @@ public class BluetoothConnectionActivity extends BaseActivityLifecycle {
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
     }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_ENABLE_BT){
             CheckBlueToothState();
         }
-    }
+    }*/
 
     private final BroadcastReceiver ActionFoundReceiver = new BroadcastReceiver(){
         @Override
@@ -186,28 +199,35 @@ public class BluetoothConnectionActivity extends BaseActivityLifecycle {
         return (Boolean) createBondMethod.invoke(btDevice);
     }
 
-    private void goToHome(){
-        Intent intent = new Intent(BluetoothConnectionActivity.this, ContentActivity.class);
-        startActivity(intent);
-        BluetoothConnectionActivity.this.finish();
+    private void goScheduleFragment(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container_schedule, new ScheduleFragment());
+        ft.commit();
     }
+
+    /*private void goToHome(){
+        Intent intent = new Intent(getContext(), ContentScheduleActivity.class);
+        startActivity(intent);
+        //BluetoothConnectionActivity.this.finish();
+    }*/
 
     private class ListItemClicked implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             bdDevice = arrayListBluetoothDevices.get(position);
-            AlertDialog.Builder alert = new AlertDialog.Builder(BluetoothConnectionActivity.this);
-            alert.setTitle(BluetoothConnectionActivity.PAIR_BLUETOOTH_DEVICES);
+            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+            alert.setTitle(BluetoothConnectionFragment.PAIR_BLUETOOTH_DEVICES);
             alert.setMessage("");
-            alert.setPositiveButton(BluetoothConnectionActivity.CONNECT_WITH_DEVICE, new DialogInterface.OnClickListener() {
+            alert.setPositiveButton(BluetoothConnectionFragment.CONNECT_WITH_DEVICE, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     callThread();
-                    goToHome();
+                    //goToHome();
+                    goScheduleFragment();
                 }
             });
 
-            alert.setNegativeButton(BluetoothConnectionActivity.CANCEL_CONNECTION, new DialogInterface.OnClickListener() {
+            alert.setNegativeButton(BluetoothConnectionFragment.CANCEL_CONNECTION, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
