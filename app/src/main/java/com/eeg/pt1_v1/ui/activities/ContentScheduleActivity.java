@@ -79,18 +79,20 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
         mToolbar.setBackgroundColor(color);
 
         Bundle extras = getIntent().getExtras();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container_schedule, new ScheduleFragment());
+        ft.commit();
 
-        if(extras!=null && extras.getInt(RecordingFragment.RECORDING) == 1 || Boolean.parseBoolean(new InfoHandler(getApplication()).getExtraStored(RecordingFragment.RECORDING))){
+        /*if(extras!=null && extras.getInt(RecordingFragment.RECORDING) == 1 || Boolean.parseBoolean(new InfoHandler(getApplication()).getExtraStored(RecordingFragment.RECORDING))){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container_schedule, new RecordingFragment());
             ft.commit();
         }
         else {
-
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.fragment_container_schedule, new BluetoothConnectionFragment());
             ft.commit();
-        }
+        }*/
     }
 
     private View.OnClickListener backAction = new View.OnClickListener() {
@@ -112,5 +114,16 @@ public class ContentScheduleActivity extends BaseActivityLifecycle{
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        InfoHandler ih = new InfoHandler(getApplication());
+        if(getSupportFragmentManager().findFragmentById(R.id.fragment_container_schedule) instanceof RecordingFragment && Boolean.parseBoolean(ih.getExtraStored(RecordingFragment.RECORDING)))
+            ih.saveExtraFromActivity(RecordingFragment.FROM_RECORDING, "true");
+        else
+            ih.saveExtraFromActivity(Palabras.SCHEDULE_POSITION, null);
+
     }
 }
