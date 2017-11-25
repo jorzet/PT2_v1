@@ -24,16 +24,19 @@ import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
 import com.eeg.pt1_v1.entities.Cita;
+import com.eeg.pt1_v1.entities.Dispositivo;
 import com.eeg.pt1_v1.entities.Palabras;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.fragments.profile.ProfileFragment;
 import com.eeg.pt1_v1.fragments.schedule.ScheduleFragment;
 import com.eeg.pt1_v1.fragments.schedule.SchedulesFragment;
 import com.eeg.pt1_v1.services.android.CountDown;
+import com.eeg.pt1_v1.services.bluetoothservice.BluetoothService;
 import com.eeg.pt1_v1.services.database.InfoHandler;
 import com.eeg.pt1_v1.ui.activities.ContentActivity;
 import com.eeg.pt1_v1.ui.activities.ContentScheduleActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -243,7 +246,23 @@ public class RecordingFragment extends BaseFragment {
             }
             else {
                 mStartRecording.setImageResource(mStartStopRecordingIcon[1]);
-                startCountDownTimer();
+
+                InfoHandler ih = new InfoHandler(getContext());
+                String jsonDevices = ih.getPatientDevicesJson();
+                ArrayList<Dispositivo> dispositivos = ih.getPatientDevices(jsonDevices, Dispositivo.class);
+                String raspberryMacAddress="";
+                for(int i=0;i<dispositivos.size();i++)
+                    if(dispositivos.get(i).getDeviceName().toLowerCase().equals("raspberry"))
+                        raspberryMacAddress = dispositivos.get(i).getDeviceMacAddress();
+                BluetoothService bluetoothService = new BluetoothService(getActivity(),raspberryMacAddress);
+                bluetoothService.connect();
+                if(bluetoothService.sendData("1")==BluetoothService.DATA_SUCESSFULLY_SENDED) {
+                    System.out.println("iniciar grabacion");
+                } else {
+                    System.out.println("termina grabacion");
+                }
+
+                //startCountDownTimer();
             }
             isRecording = !isRecording;
         }

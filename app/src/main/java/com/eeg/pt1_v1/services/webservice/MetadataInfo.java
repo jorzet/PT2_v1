@@ -1,6 +1,7 @@
 package com.eeg.pt1_v1.services.webservice;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.eeg.pt1_v1.entities.Especialista;
 import com.eeg.pt1_v1.entities.Palabras;
@@ -12,7 +13,7 @@ import com.eeg.pt1_v1.entities.Usuario;
 public class MetadataInfo {
 
     //public static final String URL = "http://148.204.86.36:8084/WSEEG/terminalproject/electroencephalography";
-    public static final String URL = "http://192.168.1.83:8084/WSEEG/terminalproject/electroencephalography";
+    public static final String URL = "http://192.168.1.68:8084/EEG_Final_1/terminalproject/electroencephalography";
 
     private static final String SING_IN = "/singin/";
     private static final String SING_UP_PATIENT = "/singuppatient/";
@@ -24,6 +25,7 @@ public class MetadataInfo {
     private static final String GET_PATIENT_SCHEDULE = "/getpatientschedule/";
     private static final String GET_PATIENT_SCHEDULES = "/getpatientschedules/";
     private static final String GET_STUDY_BY_PATIENT = "/getstudybypatient/";
+    private static final String GET_DEVICES_BY_PATIENT = "/getdevicesbypatient/";
 
     public String requestLogin(String email, String hashPassword, Context context){
         /*TODO obtain the hash password*/
@@ -93,5 +95,10 @@ public class MetadataInfo {
 
     public String requestGetStudyByPatient(int idPatient, int idSchedule){
         return HttpRequest.sendGetRequest(MetadataInfo.URL + MetadataInfo.GET_PATIENT_SCHEDULES + JSONBuilder.buildPatientScheduleJson(idPatient,idSchedule));
+    }
+
+    public String requestGetDevicesByPatient(int idPatient){
+        Log.d("MyTAG:","url: "+ MetadataInfo.URL + MetadataInfo.GET_DEVICES_BY_PATIENT + idPatient);
+        return HttpRequest.sendGetRequest(MetadataInfo.URL + MetadataInfo.GET_DEVICES_BY_PATIENT + idPatient);
     }
 }

@@ -14,8 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Dispositivo;
 import com.eeg.pt1_v1.entities.Paciente;
 import com.eeg.pt1_v1.entities.Palabras;
+import com.eeg.pt1_v1.entities.Usuario;
 import com.eeg.pt1_v1.services.database.InfoHandler;
 import com.eeg.pt1_v1.services.webservice.JSONBuilder;
 import com.eeg.pt1_v1.services.webservice.MetadataInfo;
@@ -24,6 +26,8 @@ import com.eeg.pt1_v1.ui.activities.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by Jorge Zepeda Tinoco on 7/2/2017.
@@ -177,13 +181,16 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
                 mLoginContent.setVisibility(View.VISIBLE);
             }
             else if(JSONBuilder.checkJsonStructure(response)) {
-                Log.i("MyTAG: ", response);
-                new InfoHandler(getContext()).savePatientAndToken(response);
-                Paciente paciente = new InfoHandler(getContext()).getPatientInfo();
-                if(paciente.getEspecialista()!=null)
+                Log.i("MyTAG: ","login:" + response);
+
+                new InfoHandler(getContext()).saveUserAndToken(response);
+                Usuario user = new InfoHandler(getContext()).getUserInfo();
+                if(user.getTipoUsuario().equals(Palabras.SPETIALIST_TYPE))
                     new GetSpetialistData().execute();
-                else
+                else {
+                    new InfoHandler(getContext()).savePatientAndToken(response);
                     new GetPatientSchedules().execute();
+                }
             }
         }
     }
@@ -263,6 +270,51 @@ public class SinginFragment extends Fragment implements View.OnClickListener{
             }
             else if(JSONBuilder.checkJsonStructure(response)) {
                 new InfoHandler(getContext()).savePatientSchedules(response);
+                new GetDevices().execute();
+            }
+        }
+    }
+
+    private class GetDevices extends AsyncTask<Integer, Long, String> {
+
+        protected String doInBackground(Integer... params) {
+
+            Paciente paciente = new InfoHandler(getContext()).getPatientInfo();
+            System.out.println("id: "+paciente.getId()+"-------------------------------");
+            String res = new MetadataInfo().requestGetDevicesByPatient(paciente.getId());
+            return res;
+        }
+
+        protected void onPostExecute(String response) {
+            if(response==null || response.equals("")) {
+                mErrorLogin.setText(Palabras.ERROR_FROM_WEB_WERVICE);
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(response.equals(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED)) {
+                mErrorLogin.setText(Palabras.ERROR_FROM_NETWORK_NOT_CONNECTED);
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(response.contains("Error") && response.contains("Message")) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int codeError = json.getInt("Error");
+                    String message = json.getString("Message");
+
+                    mErrorLogin.setText(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mProgressBar.setVisibility(View.GONE);
+                mLoginContent.setVisibility(View.VISIBLE);
+            }
+            else if(JSONBuilder.checkJsonStructure(response)) {
+                System.out.println("response: "+response);
+                new InfoHandler(getContext()).saveDevices(response);
+                String savedDevices = new InfoHandler(getContext()).getPatientDevicesJson();
+                ArrayList<Dispositivo> dispositivos = new InfoHandler(getContext()).getPatientDevices(savedDevices, Dispositivo.class);
+                System.out.println("tamaño de arreglo: "+dispositivos.size());
                 goHomeActivity();
             }
         }

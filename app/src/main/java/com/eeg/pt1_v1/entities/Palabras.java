@@ -54,6 +54,8 @@ public class Palabras {
     public static final String USER = "User";
     public static final String ID_USER = "idUsuario";
     public static final String TOKEN = "Token";
+    public static final String PATIENT_TYPE = "Paciente";
+    public static final String SPETIALIST_TYPE = "Especialista";
 
     public static final String FP1 = "fp1";
     public static final String FP2 = "fp2";
@@ -74,5 +76,14 @@ public class Palabras {
     public static final String T6 = "t6";
     public static final String O1 = "o1";
     public static final String O2 = "o2";
+
+
+    public static final String ID_PATIENT = "id_patient";
+    public static final String ID_SCHEDULE = "id_schedule";
+    public static final String DURATION = "duration";
+    public static final String DATE = "date";
+    public static final String CHANNELS = "channels";
+    public static final String MAC_ADDRESS = "mac_address";
+    public static final String CURRENT_SCHEDULE = "current_schedule";
 
 }

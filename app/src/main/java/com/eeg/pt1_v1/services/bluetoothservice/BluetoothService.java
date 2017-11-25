@@ -9,9 +9,21 @@ import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
+import com.eeg.pt1_v1.entities.Cita;
+import com.eeg.pt1_v1.entities.Dispositivo;
+import com.eeg.pt1_v1.entities.Paciente;
+import com.eeg.pt1_v1.entities.Palabras;
+import com.eeg.pt1_v1.entities.Usuario;
+import com.eeg.pt1_v1.services.database.InfoHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,10 +56,11 @@ public class BluetoothService {
     private BluetoothSocket mmSocket;
     private BluetoothDevice mmDevice = null;
 
-    private UUID uuid = UUID.fromString("94f39d29-7d6d-437d-973b-fba39e49d4ee");R
+    private UUID uuid = UUID.fromString("94f39d29-7d6d-437d-973b-fba39e49d4ee");
 
     private static final String  CAN_NOT_BE_LINKED = "No se pudó conectar a el dispositivo BT";
     private static final String ERROR_IN_SENDING_USER_INFO = "Error, no se pudó enviar la información de usuario";
+    private static final String ERROR_IN_SENDING_STATUS = "Error, no se pudo iniciar la grabacion";
 
     Activity mActivity;
 
@@ -60,10 +73,10 @@ public class BluetoothService {
         void onBluetoothReciver();
     }
 
-    public BluetoothService(Activity activity){
+    public BluetoothService(Activity activity, String MacAddress){
         this.mActivity = activity;
         this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        mmDevice = mBluetoothAdapter.getRemoteDevice("B8:27:EB:48:E9:A2");
+        mmDevice = mBluetoothAdapter.getRemoteDevice(MacAddress);
     }
 
 
@@ -156,6 +169,30 @@ public class BluetoothService {
         return CODE_ERROR_CONNECTION;
     }
 
+    public void disconnect(){
+        try {
+            mmSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int sendData(String status){
+        try {
+
+            Log.d(TAG,"status: "+ status);
+            OutputStream mmOutputStream = mmSocket.getOutputStream();
+            mmOutputStream.write(status.getBytes());
+            return BluetoothService.DATA_SUCESSFULLY_SENDED;
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            //setErrorInSendingStatus(ERROR_IN_SENDING_STATUS);
+        }
+        return ERROR_IN_SENDING;
+    }
+
     public int sendUserData(){
         try {
             InputStream mmInputStream = mmSocket.getInputStream();
@@ -201,7 +238,43 @@ public class BluetoothService {
     }
 
     private String getUserInformation(){
-        return "{name:jorge,id:1,}";
+        InfoHandler ih = new InfoHandler(mActivity);
+        Paciente paciente = ih.getPatientInfo();
+        Cita cita = ih.getCurrentScheduele();
+
+        String jsonDevices = ih.getPatientDevicesJson();
+        ArrayList<Dispositivo> dispositivos = ih.getPatientDevices(jsonDevices,Dispositivo.class);
+
+        int idPatient = paciente.getId();
+        int scheduleId = cita.getFolioCita();
+        String duration = cita.getDuracion();
+        String date = cita.getFecha();
+
+        JSONObject json = new JSONObject();
+        JSONArray channelArray = new JSONArray();
+        JSONArray macAddressArray = new JSONArray();
+
+        for(int i=0;i<dispositivos.size();i++){
+            if(!dispositivos.get(i).getDeviceName().equals("raspberry")) {
+                channelArray.put(dispositivos.get(i).getDeviceName());
+                macAddressArray.put(dispositivos.get(i).getDeviceMacAddress());
+            }
+        }
+
+        try {
+            json.put(Palabras.ID_PATIENT,idPatient);
+            json.put(Palabras.ID_SCHEDULE,scheduleId);
+            json.put(Palabras.DURATION,duration);
+            json.put(Palabras.DATE,date);
+            json.put(Palabras.CHANNELS,channelArray);
+            json.put(Palabras.MAC_ADDRESS,macAddressArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("bluettothJson: "+json.toString());
+
+        return json.toString();
     }
 
 

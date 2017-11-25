@@ -126,6 +126,10 @@ public class JSONBuilder {
         }
     }
 
+    public static String buildObjectReferenceJson(Object object){
+        return new Gson().toJson(object);
+    }
+
     public static String buildObjectReferenceJson(Object object, String KEY){
         return new Gson().toJson(object);
         /*JSONObject json = new JSONObject();

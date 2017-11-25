@@ -17,9 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eeg.pt1_v1.R;
+import com.eeg.pt1_v1.entities.Dispositivo;
 import com.eeg.pt1_v1.fragments.content.BaseFragment;
 import com.eeg.pt1_v1.fragments.recording.RecordingFragment;
 import com.eeg.pt1_v1.services.bluetoothservice.BluetoothService;
+import com.eeg.pt1_v1.services.database.InfoHandler;
+
+import java.util.ArrayList;
 
 
 /**
@@ -65,8 +69,15 @@ public class ScheduleFragment extends BaseFragment{
         mConnectingToDevice = (TextView) rootView.findViewById(R.id.connection_to_device);
         mTestProgressBar = (ProgressBar) rootView.findViewById(R.id.test_progressbar);
         mTestConnectionImageView = (ImageView) rootView.findViewById(R.id.test_connection_image);
-
-        mBluetoothService = new BluetoothService(getActivity());
+        InfoHandler ih = new InfoHandler(getContext());
+        String jsonDevices = ih.getPatientDevicesJson();
+        ArrayList<Dispositivo> dispositivos = ih.getPatientDevices(jsonDevices, Dispositivo.class);
+        String raspberryMacAddress="";
+        for(int i=0;i<dispositivos.size();i++)
+            if(dispositivos.get(i).getDeviceName().toLowerCase().equals("raspberry"))
+                raspberryMacAddress = dispositivos.get(i).getDeviceMacAddress();
+        mBluetoothService = new BluetoothService(getActivity(),raspberryMacAddress);
+        setBluetoothService(mBluetoothService);
 
         mTestButton.setOnClickListener(mTestListener);
         return rootView;
@@ -175,6 +186,7 @@ public class ScheduleFragment extends BaseFragment{
                         mTestProgressBar.setVisibility(View.GONE);
 
                         if (response == BluetoothService.DATA_SUCESSFULLY_SENDED) {
+                            mBluetoothService.disconnect();
                             goRecordingFragment();
                         } else if (response == BluetoothService.CODE_TESTING_ERROR) {
                             String jsonError = mBluetoothService.getJsonTestingConnectionError();

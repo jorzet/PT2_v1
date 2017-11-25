@@ -102,7 +102,7 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
                 myHandler.saveExtraFromActivity(SchedulesFragment.DATE_COLOR, (String) listView.getAdapter().getItem(position));
                 myHandler.saveExtraFromActivity(SchedulesFragment.DATE_TEXT, stringArrayList.get(position));
                 myHandler.saveExtraFromActivity(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
-
+                myHandler.saveCurrentSchedule(citas.get(position));
                 //intent.putExtra(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
                 //intent.putExtra(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
                 //intent.putExtra(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
@@ -125,7 +125,7 @@ public class SchedulesFragment extends BaseFragment implements AdapterView.OnIte
             myHandler.saveExtraFromActivity(SchedulesFragment.DATE_TEXT, stringArrayList.get(position));
             myHandler.saveExtraFromActivity(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());
             myHandler.saveExtraFromActivity(Palabras.SCHEDULE_POSITION, position + "-" + "false");
-
+            myHandler.saveCurrentSchedule(citas.get(position));
             //intent.putExtra(SchedulesFragment.DATE_COLOR,(String)listView.getAdapter().getItem(position));
             //intent.putExtra(SchedulesFragment.DATE_TEXT,stringArrayList.get(position));
             //intent.putExtra(Palabras.SPETIALIST_SUGGESTIONS, citas.get(position).getObservaciones());

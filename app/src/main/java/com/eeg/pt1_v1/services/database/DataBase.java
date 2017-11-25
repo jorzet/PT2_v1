@@ -26,10 +26,13 @@ public class DataBase extends SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 1;
 
     /* Table names */
+    private static final String TABLE_USER = "Usuario";
     private static final String TABLE_PATIENT = "Paciente";
     private static final String TABLE_SPETIALIST = "Especialista";
     private static final String TABLE_SCHEDULE = "Cita";
     private static final String TABLE_STUDY = "Estudio";
+    private static final String TABLE_DEVICE = "Dispositivo";
+    private static final String TABLE_CURRENT_SCHEDULE = "CitaActual";
 
     /* Columns name */
     private static final String COL_ID_PATIENT = "idPaciente";
@@ -41,6 +44,9 @@ public class DataBase extends SQLiteOpenHelper{
     private static final String COL_AGE = "age";
     private static final String COL_EMAIL = "email";
     private static final String COL_GENDER = "gender";
+    private static final String COL_ID_DEVICE = "idDevice";
+    private static final String COL_DEVICE_NAME = "deviceName";
+    private static final String COL_DEVICE_MAC = "deviceMAc";
 
     /* SQL instructions */
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS ";
@@ -60,6 +66,10 @@ public class DataBase extends SQLiteOpenHelper{
                                                     COL_AGE + " integer," +
                                                     COL_EMAIL + " text," +
                                                     COL_GENDER + " text); ";
+    private static final String DEVICE_ATRIBUTS = COL_ID_DEVICE+" integer primary key," +
+                                                    COL_ID_PATIENT + " text," +
+                                                    COL_DEVICE_NAME + " text," +
+                                                    COL_DEVICE_MAC + " text); ";
 
     public DataBase(Context context) {
         super(context, DataBase.DATABASE_NAME, DataBase.DATABASE_FACTORY, DataBase.DATABASE_VERSION);
@@ -135,6 +145,18 @@ public class DataBase extends SQLiteOpenHelper{
         editor.apply();
     }
 
+    public void storeDevices(String json){
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(TABLE_DEVICE, json);
+        editor.apply();
+    }
+
+    public void storeJSONUser(String json){
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(TABLE_USER, json);
+        editor.apply();
+    }
+
     public void storeJSONPatientSchedules(String json){
         SharedPreferences.Editor editor = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE).edit();
         editor.putString(TABLE_SCHEDULE, json);
@@ -178,9 +200,19 @@ public class DataBase extends SQLiteOpenHelper{
         return prefs.getString(TABLE_PATIENT, null);
     }
 
+    public String getJsonUser(){
+        SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(TABLE_USER, null);
+    }
+
     public String getJsonPatientSchedules(){
         SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
         return prefs.getString(TABLE_SCHEDULE, null);
+    }
+
+    public String getJsonPatientDevices(){
+        SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(TABLE_DEVICE, null);
     }
 
     public  void saveReference(String json, String TAG){
@@ -204,6 +236,17 @@ public class DataBase extends SQLiteOpenHelper{
     public String getExtra(String TAG){
         SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
         return prefs.getString(TAG, null);
+    }
+
+    public void saveJsonCurrentSchedule(String param){
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(TABLE_CURRENT_SCHEDULE, param);
+        editor.apply();
+    }
+
+    public String getJsonCurrentSchedule(){
+        SharedPreferences prefs = mContext.getSharedPreferences(DATABASE_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(TABLE_CURRENT_SCHEDULE, null);
     }
 
 }

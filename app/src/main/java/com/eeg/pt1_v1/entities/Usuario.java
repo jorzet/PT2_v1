@@ -8,6 +8,7 @@ package com.eeg.pt1_v1.entities;
 public class Usuario {
 
     protected int idUsuario;
+    protected String tipoUsuario;
     protected String name;
     protected String fistLastName;
     protected String secondLastName;
@@ -23,6 +24,10 @@ public class Usuario {
     }
     public int getId(){
         return this.idUsuario;
+    }
+
+    public String getTipoUsuario(){
+        return this.tipoUsuario;
     }
 
     public String getEmail(){
@@ -55,6 +60,9 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
+    public void setTipoUsuario(String tipoUsuario){
+        this.tipoUsuario = tipoUsuario;
+    }
     /**
      *
      * @param email
